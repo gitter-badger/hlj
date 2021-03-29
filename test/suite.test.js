@@ -12,4 +12,12 @@ describe('Test Suites', () => {
       `Tests: ${getSuccessfulReport('6 passed')}, 6 total`
     );
   });
+  it('should print Test Suites when there are 2 test file', () => {
+    const stdout = exec(`hlj ${FIXTURE}/suite-count/`);
+
+    expect(stdout).toContain('PASS');
+    expect(stdout).toContain(
+      `Test Suites: ${getSuccessfulReport('2 passed')}, 2 total`
+    );
+  });
 });

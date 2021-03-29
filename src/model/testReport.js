@@ -11,7 +11,6 @@ class TestReport {
     this.testSuites[this.testSuites.length - 1].addTestCase(testCase);
   }
   addDescription(description) {
-    console.log(this.testSuites);
     this.testSuites[this.testSuites.length - 1].addDescription(description);
   }
 
