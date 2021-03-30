@@ -11,6 +11,10 @@ describe('JavaScript TDD framework', () => {
     const stdout = exec(`hlj ${FIXTURE}/sum.test.js`);
     expect(stdout).toContain('PASS');
   });
+  it('should support console in test case', () => {
+    const stdout = exec(`hlj ${FIXTURE}/console.test.js`);
+    expect(stdout).toContain('output by console.log()');
+  });
   it('should return PASS when test passed', () => {
     const stdout = exec(`hlj ${FIXTURE}/sum.test.js`);
     expect(stdout).toContain('PASS');

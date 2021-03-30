@@ -29,6 +29,7 @@ class Context {
       },
       expect,
       process,
+      console,
     };
 
     Object.defineProperty(obj.test, 'skip', {
