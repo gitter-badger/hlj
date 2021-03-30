@@ -2,8 +2,6 @@ const { pass, fail, skip, green, red, yellow, time } = require('./render');
 
 const { TEST_RESULT } = require('./constant');
 
-const TypeChecker = require('./typeChecker');
-
 class ConsoleReporter {
   constructor(workingDir, testReport) {
     this.workingDir = workingDir;
@@ -11,8 +9,10 @@ class ConsoleReporter {
   }
 
   render() {
+    this.addDepthForReport(this.testReport);
+
     let result = '';
-    result += this.indent(this.suiteResult()) + '\n\n';
+    result += this.suiteResult() + '\n\n';
     result += this.suiteStatistics() + '\n';
     result += this.testCaseStatistics() + '\n';
     result += this.excutionTime();
@@ -20,27 +20,19 @@ class ConsoleReporter {
     return result;
   }
 
-  indent(text) {
-    const lines = text.split('\n');
-    const result = [lines[0]];
-    let leadingBlanks = [];
-    const typeChecker = new TypeChecker(lines);
-    for (let i = 1; i < lines.length; i++) {
-      if (typeChecker.isSuiteStart(i)) {
-        leadingBlanks = [];
-      } else if (
-        typeChecker.isDescribeStart(i) ||
-        typeChecker.isTestCaseStart(i) ||
-        typeChecker.isExpected(i)
-      ) {
-        leadingBlanks.push('  ');
-      } else if (typeChecker.isDescribeEnd(i) && leadingBlanks.length > 1) {
-        leadingBlanks.shift();
-      }
-      result.push(leadingBlanks.join('') + lines[i]);
-    }
+  addDepthForReport(testReport) {
+    testReport.testSuites.forEach((s) => {
+      this.addDepth(s, 0);
+    });
+  }
 
-    return result.join('\n');
+  addDepth(parent, depth) {
+    parent.depth = depth;
+    if (parent.children) {
+      parent.children.forEach((p) => {
+        this.addDepth(p, depth + 1);
+      });
+    }
   }
 
   suiteStatistics() {
@@ -91,6 +83,7 @@ class ConsoleReporter {
   formatChild(child) {
     if (child.children) {
       return (
+        this.indent(child.depth) +
         child.name +
         '\n' +
         child.children.map((c) => this.formatChild(c)).join('\n')
@@ -98,6 +91,15 @@ class ConsoleReporter {
     }
 
     return this.formatTestCase(child);
+  }
+
+  indent(depth) {
+    const blanks = [];
+    for (let i = 0; i < depth; i++) {
+      blanks.push('  ');
+    }
+
+    return blanks.join('');
   }
 
   formatTestCase(testCase) {
@@ -108,9 +110,22 @@ class ConsoleReporter {
     const icon = testCase.getStatus().isPassed()
       ? green(TEST_RESULT.PASS)
       : red(TEST_RESULT.FAIL);
-    const title = icon + ' ' + testCase.name;
-    const diff = this.getDiffMessage(testCase);
-    return title + diff;
+    const title = this.indent(testCase.depth) + icon + ' ' + testCase.name;
+    if (testCase.isPassed()) {
+      return title;
+    }
+    return (
+      title +
+      '\n' +
+      this.indentAll(testCase.depth + 1, this.getDiffMessage(testCase))
+    );
+  }
+
+  indentAll(depth, text) {
+    return text
+      .split('\n')
+      .map((line) => this.indent(depth) + line)
+      .join('\n');
   }
 
   formatTestResult(testCaseResults) {
@@ -149,7 +164,7 @@ class ConsoleReporter {
       return '';
     }
 
-    return `\nExpected: ${green(testCase.getExpected())}\nReceived: ${red(
+    return `Expected: ${green(testCase.getExpected())}\nReceived: ${red(
       testCase.getReceived()
     )}`;
   }

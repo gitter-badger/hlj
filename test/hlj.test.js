@@ -1,9 +1,7 @@
 const { exec } = require('./helper/exec');
 const {
   getSuccessfulReport,
-  getSuccessfulSuite,
   getFailedReport,
-  getFailedSuite,
   FIXTURE,
 } = require('./helper/fixtures');
 describe('JavaScript TDD framework', () => {
@@ -33,17 +31,9 @@ describe('JavaScript TDD framework', () => {
     it('should output number of tests passed while there are failed tests', () => {
       const stdout = exec(`hlj ${FIXTURE}/passed-and-failed.test.js`);
       expect(stdout).toContain(
-        `${getFailedSuite('FAIL')} ${FIXTURE}/passed-and-failed.test.js\n` +
-          `  ${getSuccessfulReport('✓')} 1 plus 2 is 3\n` +
-          `  ${getFailedReport('x')} 2 plus 2 is 5\n` +
-          `  Expected: ${getSuccessfulReport(5)}\n` +
-          `  Received: ${getFailedReport(4)}\n\n` +
-          `Test Suites: ${getFailedReport('1 failed')}, ${getSuccessfulReport(
-            '0 passed'
-          )}, 1 total\n` +
-          `Tests: ${getFailedReport('1 failed')}, ${getSuccessfulReport(
-            '1 passed'
-          )}, 2 total\n`
+        `Tests: ${getFailedReport('1 failed')}, ${getSuccessfulReport(
+          '1 passed'
+        )}, 2 total\n`
       );
     });
 
