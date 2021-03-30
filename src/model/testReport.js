@@ -22,6 +22,10 @@ class TestReport {
     return this.testSuites.length;
   }
 
+  getFailedSuites() {
+    return this.testSuites.filter((suite) => !suite.isPassed()).length;
+  }
+
   getPassedSuites() {
     return this.testSuites.filter((suite) => suite.isPassed()).length;
   }

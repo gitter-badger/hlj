@@ -18,9 +18,15 @@ class ConsoleReporter {
   }
 
   suiteStatistics() {
-    return `Test Suites: ${green(
+    return `Test Suites: ${this._renderFailedSuites()}${green(
       this.testReport.getPassedSuites() + ' passed'
     )}, ${this.testReport.getTotalSuites()} total\n`;
+  }
+  _renderFailedSuites() {
+    if (this.testReport.getFailedSuites() === 0) {
+      return '';
+    }
+    return `${red(this.testReport.getFailedSuites() + ' failed')}, `;
   }
 
   testCaseStatistics() {

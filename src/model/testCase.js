@@ -48,6 +48,10 @@ class TestCase {
     return this.status;
   }
 
+  getFailedCount() {
+    return this.status.isFailed() ? 1 : 0;
+  }
+
   getPassedCount() {
     return this.status.isPassed() ? 1 : 0;
   }

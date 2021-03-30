@@ -46,6 +46,12 @@ class TestSuite {
     }
   }
 
+  getFailedCount() {
+    return this.children
+      .map((child) => child.getFailedCount())
+      .reduce((a, b) => a + b, 0);
+  }
+
   getPassedCount() {
     return this.children
       .map((child) => child.getPassedCount())
