@@ -110,7 +110,14 @@ class ConsoleReporter {
     const icon = testCase.getStatus().isPassed()
       ? green(TEST_RESULT.PASS)
       : red(TEST_RESULT.FAIL);
-    const title = this.indent(testCase.depth) + icon + ' ' + testCase.name;
+    const title =
+      this.indent(testCase.depth) +
+      icon +
+      ' ' +
+      testCase.name +
+      ' (' +
+      testCase.getExecutionTime() +
+      ' ms)';
     if (testCase.isPassed()) {
       return title;
     }

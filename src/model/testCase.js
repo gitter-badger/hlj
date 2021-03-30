@@ -19,6 +19,8 @@ class TestCase {
   }
 
   execute(testCaseName) {
+    const startedAt = Date.now();
+
     if (!this.callback) {
       this.status.skip();
       return;
@@ -38,6 +40,12 @@ class TestCase {
       this.received = received;
       this.status.fail();
     }
+
+    this.elapsed = Date.now() - startedAt;
+  }
+
+  getExecutionTime() {
+    return this.elapsed;
   }
 
   isPassed() {
