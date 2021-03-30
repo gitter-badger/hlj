@@ -2,6 +2,8 @@ const { pass, fail, skip, green, red, yellow, time } = require('./render');
 
 const { TEST_RESULT } = require('./constant');
 
+const TypeChecker = require('./typeChecker');
+
 class ConsoleReporter {
   constructor(workingDir, testReport) {
     this.workingDir = workingDir;
@@ -10,17 +12,41 @@ class ConsoleReporter {
 
   render() {
     let result = '';
-    result += this.suiteResult();
-    result += this.suiteStatistics();
-    result += this.testCaseStatistics();
+    result += this.indent(this.suiteResult()) + '\n\n';
+    result += this.suiteStatistics() + '\n';
+    result += this.testCaseStatistics() + '\n';
     result += this.excutionTime();
+
     return result;
+  }
+
+  indent(text) {
+    const lines = text.split('\n');
+    const result = [lines[0]];
+    let leadingBlanks = [];
+    const typeChecker = new TypeChecker(lines);
+    for (let i = 1; i < lines.length; i++) {
+      if (typeChecker.isSuiteStart(i)) {
+        leadingBlanks = [];
+      } else if (
+        typeChecker.isDescribeStart(i) ||
+        typeChecker.isTestCaseStart(i) ||
+        typeChecker.isExpected(i)
+      ) {
+        leadingBlanks.push('  ');
+      } else if (typeChecker.isDescribeEnd(i) && leadingBlanks.length > 1) {
+        leadingBlanks.shift();
+      }
+      result.push(leadingBlanks.join('') + lines[i]);
+    }
+
+    return result.join('\n');
   }
 
   suiteStatistics() {
     return `Test Suites: ${this._renderFailedSuites()}${green(
       this.testReport.getPassedSuites() + ' passed'
-    )}, ${this.testReport.getTotalSuites()} total\n`;
+    )}, ${this.testReport.getTotalSuites()} total`;
   }
   _renderFailedSuites() {
     if (this.testReport.getFailedSuites() === 0) {
@@ -39,7 +65,7 @@ class ConsoleReporter {
       skippedCount
     )}${this.getFailedCountString(failedCount)}${this.getPassedCountString(
       passedCount
-    )}${totalCount} total\n`;
+    )}${totalCount} total`;
   }
 
   excutionTime() {
@@ -47,11 +73,9 @@ class ConsoleReporter {
   }
 
   suiteResult() {
-    return (
-      this.testReport.testSuites
-        .map((testSuite) => this.formatTestSuite(testSuite))
-        .join('\n') + '\n'
-    );
+    return this.testReport.testSuites
+      .map((testSuite) => this.formatTestSuite(testSuite))
+      .join('\n\n');
   }
 
   formatTestSuite(testSuite) {
@@ -61,12 +85,16 @@ class ConsoleReporter {
 
     return `${this.renderByStatus(testSuite)} ${testSuite
       .getPath()
-      .replace(this.workingDir, '')}\n${childrenResult}\n`;
+      .replace(this.workingDir, '')}\n${childrenResult}`;
   }
 
   formatChild(child) {
     if (child.children) {
-      return child.children.map((c) => this.formatChild(c)).join('\n');
+      return (
+        child.name +
+        '\n' +
+        child.children.map((c) => this.formatChild(c)).join('\n')
+      );
     }
 
     return this.formatTestCase(child);
@@ -80,7 +108,7 @@ class ConsoleReporter {
     const icon = testCase.getStatus().isPassed()
       ? green(TEST_RESULT.PASS)
       : red(TEST_RESULT.FAIL);
-    const title = '  ' + icon + ' ' + testCase.name;
+    const title = icon + ' ' + testCase.name;
     const diff = this.getDiffMessage(testCase);
     return title + diff;
   }
@@ -121,7 +149,7 @@ class ConsoleReporter {
       return '';
     }
 
-    return `\n  Expected: ${green(testCase.getExpected())}\n  Received: ${red(
+    return `\nExpected: ${green(testCase.getExpected())}\nReceived: ${red(
       testCase.getReceived()
     )}`;
   }
