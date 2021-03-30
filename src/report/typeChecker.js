@@ -39,8 +39,6 @@ class TypeChecker {
   }
 
   isExpected(i) {
-    console.log(i);
-    console.log(this.lines[i]);
     return this.lines[i].startsWith(`Expected: `);
   }
 
