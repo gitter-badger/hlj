@@ -48,7 +48,11 @@ class Context {
     const tempChildren = this.context.tempChildren;
     tempChildren.unshift([]);
     callback();
-    description.setChildren(tempChildren.shift());
+    const children = tempChildren.shift();
+    children.forEach((child) => {
+      child.parentName = name;
+    });
+    description.setChildren(children);
     this.appendToParent(description);
   }
 
