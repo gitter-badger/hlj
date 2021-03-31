@@ -26,7 +26,8 @@ class TestCase {
       return;
     }
 
-    if (testCaseName && !this.name.includes(testCaseName)) {
+    const regExp = new RegExp(testCaseName);
+    if (testCaseName && !regExp.test(this.name)) {
       this.status.skip();
       return;
     }
