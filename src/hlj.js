@@ -10,16 +10,12 @@ const main = (fileName, testCaseName) => {
 
   testReport.execute(testCaseName);
 
-  const consoleReport = new ConsoleReporter(process.cwd() + '/', testReport);
-
-  const result = consoleReport.render();
+  const result = new ConsoleReporter(process.cwd() + '/', testReport).render();
   console.log(result);
-  return consoleReport;
 };
 
 const argParser = new ArgParser(process.argv);
 const fileName = process.cwd() + '/' + argParser.getPath();
 const testCaseName = argParser.getTestCaseName();
 
-const testReport = main(fileName, testCaseName);
-module.exports = testReport;
+main(fileName, testCaseName);
