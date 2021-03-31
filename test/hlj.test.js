@@ -21,4 +21,8 @@ describe('JavaScript TDD framework', () => {
     const stdout = exec(`hlj ${FIXTURE}/failed.test.js`);
     expect(stdout).toContain('FAIL');
   });
+  it('should fail the test when exception occur', () => {
+    const stdout = exec(`hlj ${FIXTURE}/exception.test.js`);
+    expect(stdout).toContain('FAIL');
+  });
 });
