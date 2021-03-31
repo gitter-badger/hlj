@@ -2,6 +2,7 @@
 const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
+const ArgParser = require('./parser/argParser');
 
 const main = (fileName, testCaseName) => {
   const files = new Walker().walk(fileName);
@@ -13,7 +14,8 @@ const main = (fileName, testCaseName) => {
   console.log(result);
 };
 
-const fileName = process.cwd() + '/' + process.argv[2];
-const testCaseName = process.argv[3];
+const argParser = new ArgParser(process.argv);
+const fileName = process.cwd() + '/' + argParser.getPath();
+const testCaseName = argParser.getTestCaseName();
 
 main(fileName, testCaseName);
