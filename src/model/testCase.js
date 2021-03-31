@@ -19,6 +19,8 @@ class TestCase {
   }
 
   execute(testCaseName) {
+    const startedAt = Date.now();
+
     if (!this.callback) {
       this.status.skip();
       return;
@@ -33,11 +35,22 @@ class TestCase {
       this.callback();
       this.status.pass();
     } catch (e) {
-      const { expected, received } = JSON.parse(e.message);
-      this.expected = expected;
-      this.received = received;
-      this.status.fail();
+      try {
+        const { expected, received } = JSON.parse(e.message);
+        this.expected = expected;
+        this.received = received;
+      } catch (e1) {
+        this.received = e.stack;
+      } finally {
+        this.status.fail();
+      }
     }
+
+    this.elapsed = Date.now() - startedAt;
+  }
+
+  getExecutionTime() {
+    return this.elapsed;
   }
 
   isPassed() {
