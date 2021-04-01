@@ -1,73 +1,38 @@
-function match({ matcher, isNot, received, expected }) {
-  const result = matcher(received)(expected);
+function match({ matcher, isNot, actual, expected }) {
+  const result = matcher(actual, expected);
 
   if (isNot && result) {
-    throw new Error(JSON.stringify({ expected, received }));
+    throw new Error(JSON.stringify({ expected, received: actual }));
   }
   if (!result && !isNot) {
-    throw new Error(JSON.stringify({ expected, received }));
+    throw new Error(JSON.stringify({ expected, received: actual }));
   }
 }
 
-const expect = (received) => {
-  const matchers = (isNot = false) => ({
-    toEqual: (expected) => {
-      match({
-        matcher: getToEqual,
-        isNot,
-        received,
-        expected,
-      });
-    },
-    toContain: getToContain(isNot)(received),
-    toMatch: getToMatch(isNot)(received),
-    toBe: (expected) => {
-      match({
-        matcher: getToBe,
-        isNot,
-        received,
-        expected,
-      });
-    },
-  });
-
+const expect = (actual) => {
   return {
-    ...createMatchers(),
-    not: { ...matchers(true) },
+    ...createMatchers(false, actual),
+    not: { ...createMatchers(true, actual) },
   };
 };
 
-const getToBe = (received) => (expected) => {
-  return received === expected;
+const getToBe = (actual, expected) => {
+  return actual === expected;
 };
 
-const getToEqual = (isNot) => (received) => (expected) => {
-  const isObject = typeof received === 'object' && typeof expected === 'object';
-  const condition = isObject
-    ? JSON.stringify(received) !== JSON.stringify(expected)
-    : received !== expected;
-
-  return condition;
+const getToEqual = (actual, expected) => {
+  const isObject = typeof actual === 'object' && typeof expected === 'object';
+  return isObject
+    ? JSON.stringify(actual) === JSON.stringify(expected)
+    : actual === expected;
 };
 
-const getToContain = (isNot) => (received) => (expected) => {
-  const contains = received.includes(expected);
-
-  if (!contains && !isNot) {
-    throw new Error(JSON.stringify({ expected, received }));
-  }
+const getToContain = (actual, expected) => {
+  return actual.includes(expected);
 };
 
-const getToMatch = (isNot) => (received) => (expected) => {
-  const contains = received.match(expected);
-
-  if (!contains && !isNot) {
-    throw new Error(JSON.stringify({ expected, received }));
-  }
-};
-
-module.exports = {
-  expect,
+const getToMatch = (actual, expected) => {
+  return expected.test(actual);
 };
 
 const matcherMap = {
@@ -77,15 +42,18 @@ const matcherMap = {
   toMatch: getToMatch,
 };
 
-function createMatchers() {
+function createMatchers(isNot, actual) {
   return Object.keys(matcherMap)
     .map((key) => {
       const matcher = matcherMap[key];
-      const fn = (isNot) => (expected) =>
-        match({ matcher, isNot, received, expected });
+      const fn = (expected) => match({ matcher, isNot, actual, expected });
       return { [key]: fn };
     })
     .reduce((result, obj) => {
       return { ...result, ...obj };
     }, {});
 }
+
+module.exports = {
+  expect,
+};
