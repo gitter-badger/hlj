@@ -7,6 +7,11 @@ describe('Test Matcher', () => {
     expect(stdout).toContain('PASS');
   });
 
+  it('should failed test when received equal expected with matcher not.toBe', () => {
+    const stdout = exec(`hlj ${FIXTURE}/failed.test.js`);
+    expect(stdout).toContain('FAIL');
+  });
+
   it('should output pass test not.toEqual matcher', () => {
     const stdout = exec(`hlj ${FIXTURE}/test-matcher.test.js`);
     // todo: Object diff

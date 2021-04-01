@@ -12,7 +12,10 @@ const expect = (received) => {
 };
 
 const getToBe = (isNot) => (received) => (expected) => {
-  if (received !== expected && !isNot) {
+  const condition = received === expected;
+  const matchNotToBeFail = isNot && condition;
+  const matchToBeFail = !condition;
+  if (matchNotToBeFail || matchToBeFail) {
     throw new Error(JSON.stringify({ expected, received }));
   }
 };
@@ -45,5 +48,5 @@ const getToMatch = (isNot) => (received) => (expected) => {
 };
 
 module.exports = {
-  expect
+  expect,
 };
