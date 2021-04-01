@@ -1,20 +1,44 @@
+function match({ matcher, isNot, received, expected }) {
+  const result = matcher(received)(expected);
+
+  if (isNot && result) {
+    throw new Error(JSON.stringify({ expected, received }));
+  }
+  if (!result && !isNot) {
+    throw new Error(JSON.stringify({ expected, received }));
+  }
+}
+
 const expect = (received) => {
   const matchers = (isNot = false) => ({
-    toBe: getToBe(isNot)(received),
-    toEqual: getToEqual(isNot)(received),
+    toEqual: (expected) => {
+      match({
+        matcher: getToEqual,
+        isNot,
+        received,
+        expected,
+      });
+    },
     toContain: getToContain(isNot)(received),
     toMatch: getToMatch(isNot)(received),
+    toBe: (expected) => {
+      match({
+        matcher: getToBe,
+        isNot,
+        received,
+        expected,
+      });
+    },
   });
+
   return {
-    ...matchers(),
+    ...createMatchers(),
     not: { ...matchers(true) },
   };
 };
 
-const getToBe = (isNot) => (received) => (expected) => {
-  if (received !== expected && !isNot) {
-    throw new Error(JSON.stringify({ expected, received }));
-  }
+const getToBe = (received) => (expected) => {
+  return received === expected;
 };
 
 const getToEqual = (isNot) => (received) => (expected) => {
@@ -23,9 +47,7 @@ const getToEqual = (isNot) => (received) => (expected) => {
     ? JSON.stringify(received) !== JSON.stringify(expected)
     : received !== expected;
 
-  if (condition && !isNot) {
-    throw new Error(JSON.stringify({ expected, received }));
-  }
+  return condition;
 };
 
 const getToContain = (isNot) => (received) => (expected) => {
@@ -45,5 +67,25 @@ const getToMatch = (isNot) => (received) => (expected) => {
 };
 
 module.exports = {
-  expect
+  expect,
 };
+
+const matcherMap = {
+  toEqual: getToEqual,
+  toBe: getToBe,
+  toContain: getToContain,
+  toMatch: getToMatch,
+};
+
+function createMatchers() {
+  return Object.keys(matcherMap)
+    .map((key) => {
+      const matcher = matcherMap[key];
+      const fn = (isNot) => (expected) =>
+        match({ matcher, isNot, received, expected });
+      return { [key]: fn };
+    })
+    .reduce((result, obj) => {
+      return { ...result, ...obj };
+    }, {});
+}
