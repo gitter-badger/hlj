@@ -3,17 +3,25 @@ const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
+const { SHOW_LOGO } = require('./report/constant');
 
 const main = (fileName, testCaseName) => {
-  const files = new Walker().walk(fileName);
+  const walker = new Walker();
+
+  if (walker.isDir(fileName)) {
+    console.log(`${SHOW_LOGO()}`);
+  }
+
+  const files = walker.walk(fileName);
   const testReport = new Parser().parse(files);
 
   testReport.execute(testCaseName);
 
   const consoleReport = new ConsoleReporter(process.cwd() + '/', testReport);
 
-  const result = consoleReport.render();
+  let result = consoleReport.render();
   console.log(result);
+
   return consoleReport;
 };
 

@@ -4,6 +4,7 @@ const {
   getFailedReport,
   FIXTURE,
 } = require('./helper/fixtures');
+const { SHOW_LOGO } = require('../src/report/constant');
 describe('JavaScript TDD framework', () => {
   it('is a CLI program', () => {
     const stdout = exec(`hlj ${FIXTURE}/sum.test.js`);
