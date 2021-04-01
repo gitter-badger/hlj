@@ -19,7 +19,7 @@ const main = (fileName, testCaseName) => {
 
   const consoleReport = new ConsoleReporter(process.cwd() + '/', testReport);
 
-  let result = consoleReport.render();
+  const result = consoleReport.render();
   console.log(result);
 
   return consoleReport;
