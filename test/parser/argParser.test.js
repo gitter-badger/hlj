@@ -43,4 +43,11 @@ describe('Arg Parser', () => {
       "'^Arg Parser should parse test case name$'"
     );
   });
+
+  it('parse args of TestSuite', () => {
+    const args = ['/usr/local/bin/node', '/usr/local/bin/hlj'];
+    const argParser = new ArgParser(args);
+    expect(argParser.getPath()).toEqual('.');
+    expect(argParser.getTestCaseName()).toEqual('');
+  });
 });

@@ -4,6 +4,9 @@ class ArgParser {
   }
 
   getPath() {
+    if (this.args.length === 2) {
+      return '.';
+    }
     return this.args[this.args.length - 1];
   }
 
