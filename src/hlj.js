@@ -3,7 +3,7 @@ const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
-const { SHOW_LOGO } = require('./report/constant');
+const { SHOW_LOGO } = require('./constant');
 
 const main = (fileName, testCaseName) => {
   const walker = new Walker();

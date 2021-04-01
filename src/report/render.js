@@ -1,4 +1,4 @@
-const { COLOR_SCHEMA } = require('./constant');
+const { COLOR_SCHEMA } = require('../constant');
 const pass = (text) => `${COLOR_SCHEMA.greenBG} ${text} ${COLOR_SCHEMA.reset}`;
 const fail = (text) => `${COLOR_SCHEMA.redBG} ${text} ${COLOR_SCHEMA.reset}`;
 const skip = (text) => `${COLOR_SCHEMA.yellowBG} ${text} ${COLOR_SCHEMA.reset}`;

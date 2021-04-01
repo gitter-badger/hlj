@@ -1,4 +1,4 @@
-const { TEST_RESULT } = require('../src/report/constant');
+const { TEST_RESULT } = require('../src/constant');
 const { exec } = require('./helper/exec');
 const {
   FIXTURE,

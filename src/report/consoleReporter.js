@@ -1,6 +1,6 @@
 const { pass, fail, skip, green, red, yellow, time } = require('./render');
 
-const { TEST_RESULT } = require('./constant');
+const { TEST_RESULT } = require('../constant');
 
 class ConsoleReporter {
   constructor(workingDir, testReport) {
