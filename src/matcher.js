@@ -1,10 +1,7 @@
 function match({ matcher, isNot, actual, expected }) {
   const result = matcher(actual, expected);
 
-  if (isNot && result) {
-    throw new Error(JSON.stringify({ expected, received: actual }));
-  }
-  if (!result && !isNot) {
+  if (isNot === result) {
     throw new Error(JSON.stringify({ expected, received: actual }));
   }
 }
