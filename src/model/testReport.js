@@ -1,4 +1,3 @@
-const TestSuite = require('./testSuite');
 const Status = require('./status');
 
 class TestReport {

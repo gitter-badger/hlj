@@ -1,4 +1,3 @@
-const vm = require('vm');
 const Status = require('./status');
 
 class TestCase {

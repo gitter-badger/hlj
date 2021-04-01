@@ -1,4 +1,4 @@
-const { pass, fail, skip, green, red, yellow, time } = require('./render');
+const { pass, fail, green, red, yellow, time } = require('./render');
 
 const { TEST_RESULT } = require('../constant');
 
