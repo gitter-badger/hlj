@@ -182,5 +182,8 @@ class ConsoleReporter {
 
     return fail('FAIL');
   }
+  isPassed() {
+    return this.testReport.isPassed();
+  }
 }
 module.exports = ConsoleReporter;
