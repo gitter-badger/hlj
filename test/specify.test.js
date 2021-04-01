@@ -7,6 +7,7 @@ it('should specify test to run', () => {
   );
   expect(stdout).toContain('PASS');
   expect(stdout).toContain('test 1');
+  expect(stdout).toContain('test 2');
   expect(stdout).toContain(
     `Tests: ${yellow('2 skipped')}, ${green('1 passed')}, 3 total`
   );

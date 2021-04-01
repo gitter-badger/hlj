@@ -70,6 +70,10 @@ class TestCase {
     return this.status.isPassed();
   }
 
+  isSkipped() {
+    return this.status.isSkipped();
+  }
+
   getStatus() {
     return this.status;
   }

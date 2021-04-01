@@ -13,6 +13,7 @@ const COLOR_SCHEMA = {
 const TEST_RESULT = {
   PASS: '✓',
   FAIL: 'x',
+  SKIP: '○',
 };
 module.exports = {
   BLANK_SPACE,

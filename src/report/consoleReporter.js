@@ -102,25 +102,24 @@ class ConsoleReporter {
     return blanks.join('');
   }
 
-  formatTestCase(testCase) {
-    if (testCase.getStatus().isSkipped()) {
-      return '';
-    }
+  getIcon(testCase) {
+    if (testCase.isSkipped()) return yellow(TEST_RESULT.SKIP);
+    if (testCase.isPassed()) return green(TEST_RESULT.PASS);
+    return red(TEST_RESULT.FAIL);
+  }
 
-    const icon = testCase.getStatus().isPassed()
-      ? green(TEST_RESULT.PASS)
-      : red(TEST_RESULT.FAIL);
+  formatTestCase(testCase) {
     const title =
       this.indent(testCase.depth) +
-      icon +
+      this.getIcon(testCase) +
       ' ' +
-      testCase.name +
-      ' (' +
-      testCase.getExecutionTime() +
-      ' ms)';
+      testCase.name;
+
+    if (testCase.isSkipped()) return title;
     if (testCase.isPassed()) {
-      return title;
+      return title + ' (' + testCase.getExecutionTime() + ' ms)';
     }
+
     return (
       title +
       '\n' +
