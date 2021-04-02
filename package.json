@@ -3,9 +3,6 @@
   "version": "0.4.0",
   "description": "The fastest TDD for JavaScript world, made by Chinese software craftsman.",
   "main": "src/hlj.js",
-  "devDependencies": {
-    "child_process": "^1.0.2"
-  },
   "scripts": {
     "test": "node src/hlj.js test",
     "check": "node ops/pipelineCheck.js test"
