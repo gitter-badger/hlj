@@ -50,7 +50,7 @@ class Context {
     callback();
     const children = tempChildren.shift();
     children.forEach((child) => {
-      child.parentName = name;
+      child.parent = description;
     });
     description.setChildren(children);
     this.appendToParent(description);

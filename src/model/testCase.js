@@ -26,7 +26,7 @@ class TestCase {
     }
 
     const regExp = new RegExp(this.removeQuote(testCaseName));
-    if (testCaseName && !regExp.test(this.prependParentName(this.name))) {
+    if (testCaseName && !regExp.test(this.getFullName())) {
       this.status.skip();
       return;
     }
@@ -53,12 +53,12 @@ class TestCase {
     return regExText.slice(1, regExText.length - 2);
   }
 
-  prependParentName(name) {
-    if (this.parentName) {
-      return this.parentName + ' ' + name;
+  getFullName() {
+    if (this.parent) {
+      return this.parent.getFullName() + ' ' + this.name;
     }
 
-    return name;
+    return this.name;
   }
 
   getExecutionTime() {

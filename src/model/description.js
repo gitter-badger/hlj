@@ -21,6 +21,14 @@ class Description {
     return this.name;
   }
 
+  getFullName() {
+    if (this.parent) {
+      return this.parent.getFullName() + ' ' + this.name;
+    }
+
+    return this.name;
+  }
+
   getChild(index) {
     return this.children[index];
   }

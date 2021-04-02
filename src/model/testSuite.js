@@ -25,6 +25,10 @@ class TestSuite {
     return this.path;
   }
 
+  getFullName() {
+    return this.name;
+  }
+
   getChild(index) {
     return this.children[index];
   }
