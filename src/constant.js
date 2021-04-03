@@ -15,6 +15,16 @@ const TEST_RESULT_ICON = {
   FAIL: 'x',
   SKIP: '○',
 };
+const TEST_RESULT_TEXT = {
+  PASS: 'PASS',
+  FAIL: 'FAIL',
+  SKIP: 'SKIP',
+};
+const TEST_RESULT_STATUS = {
+  PASSED: 'passed',
+  FAILED: 'failed',
+  SKIPPED: 'skipped',
+};
 
 const SHOW_LOGO = () => {
   return (
@@ -52,4 +62,6 @@ module.exports = {
   BLANK_SPACE,
   COLOR_SCHEMA,
   TEST_RESULT_ICON,
+  TEST_RESULT_TEXT,
+  TEST_RESULT_STATUS,
 };

@@ -1,3 +1,4 @@
+const { TEST_RESULT_STATUS } = require('../constant');
 class Status {
   constructor() {
     this.skippedCount = 0;
@@ -7,27 +8,27 @@ class Status {
   }
 
   pass() {
-    this.status = 'passed';
+    this.status = TEST_RESULT_STATUS.PASSED;
   }
 
   fail() {
-    this.status = 'failed';
+    this.status = TEST_RESULT_STATUS.FAILED;
   }
 
   skip() {
-    this.status = 'skipped';
+    this.status = TEST_RESULT_STATUS.SKIPPED;
   }
 
   isFailed() {
-    return this.status === 'failed';
+    return this.status === TEST_RESULT_STATUS.FAILED;
   }
 
   isPassed() {
-    return this.status === 'passed';
+    return this.status === TEST_RESULT_STATUS.PASSED;
   }
 
   isSkipped() {
-    return this.status === 'skipped';
+    return this.status === TEST_RESULT_STATUS.SKIPPED;
   }
 
   getSkippedCount() {
