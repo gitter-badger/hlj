@@ -1,6 +1,6 @@
 const { pass, fail, green, red, yellow, time } = require('./render');
 
-const { TEST_RESULT } = require('../constant');
+const { TEST_RESULT_ICON } = require('../constant');
 
 class ConsoleReporter {
   constructor(workingDir, testReport) {
@@ -103,9 +103,9 @@ class ConsoleReporter {
   }
 
   getIcon(testCase) {
-    if (testCase.isSkipped()) return yellow(TEST_RESULT.SKIP);
-    if (testCase.isPassed()) return green(TEST_RESULT.PASS);
-    return red(TEST_RESULT.FAIL);
+    if (testCase.isSkipped()) return yellow(TEST_RESULT_ICON.SKIP);
+    if (testCase.isPassed()) return green(TEST_RESULT_ICON.PASS);
+    return red(TEST_RESULT_ICON.FAIL);
   }
 
   formatTestCase(testCase) {
@@ -140,8 +140,8 @@ class ConsoleReporter {
         (testCase) =>
           `  ${
             testCase.isPassed
-              ? this.getSuccessfulReport(TEST_RESULT.PASS)
-              : this.getFailedReport(TEST_RESULT.FAIL)
+              ? this.getSuccessfulReport(TEST_RESULT_ICON.PASS)
+              : this.getFailedReport(TEST_RESULT_ICON.FAIL)
           } ${testCase.name}`
       )
       .join('\n');

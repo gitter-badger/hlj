@@ -3,8 +3,8 @@ const {
   FIXTURE,
   getSuccessfulReport,
   getFailedReport,
-  TEST_RESULT,
 } = require('../helper/fixtures');
+const { TEST_RESULT_ICON } = require('../../src/constant');
 
 describe('Console Reporter', () => {
   it('should print nested describes', () => {
@@ -18,7 +18,7 @@ describe('Console Reporter', () => {
   it('should print error message', () => {
     const stdout = exec(`hlj ${FIXTURE}/failed.test.js`);
     expect(stdout).toContain(
-      `${getFailedReport(TEST_RESULT.FAIL)} 1 is not equal 2`
+      `${getFailedReport(TEST_RESULT_ICON.FAIL)} 1 is not equal 2`
     );
     expect(stdout).toContain(`  Expected: ${getSuccessfulReport(2)}`);
     expect(stdout).toContain(`  Received: ${getFailedReport(1)}`);

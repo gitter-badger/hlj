@@ -1,4 +1,4 @@
-const { TEST_RESULT, COLOR_SCHEMA } = require('./constant');
+const { TEST_RESULT_ICON, COLOR_SCHEMA } = require('./constant');
 
 class TypeChecker {
   constructor(lines) {
@@ -43,7 +43,7 @@ class TypeChecker {
   }
 
   isTestCase(i) {
-    return this.lines[i].startsWith(`\x1B[32m${TEST_RESULT.PASS}`);
+    return this.lines[i].startsWith(`\x1B[32m${TEST_RESULT_ICON.PASS}`);
   }
 }
 

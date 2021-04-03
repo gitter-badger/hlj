@@ -10,7 +10,7 @@ const COLOR_SCHEMA = {
   reset: '\x1B[0m',
 };
 
-const TEST_RESULT = {
+const TEST_RESULT_ICON = {
   PASS: '✓',
   FAIL: 'x',
   SKIP: '○',
@@ -51,5 +51,5 @@ module.exports = {
   SHOW_LOGO,
   BLANK_SPACE,
   COLOR_SCHEMA,
-  TEST_RESULT,
+  TEST_RESULT_ICON,
 };

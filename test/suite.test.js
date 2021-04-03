@@ -1,4 +1,4 @@
-const { TEST_RESULT } = require('../src/constant');
+const { TEST_RESULT_ICON } = require('../src/constant');
 const { exec } = require('./helper/exec');
 const {
   FIXTURE,
@@ -29,7 +29,7 @@ describe('Test Suites', () => {
   it('should print 1 failed test and passed test in Test Suites when there is 1 failed and 1 passed test file', () => {
     const stdout = exec(`hlj ${FIXTURE}/suite-failed-count/`);
 
-    expect(stdout).toContain(TEST_RESULT.FAIL);
+    expect(stdout).toContain(TEST_RESULT_ICON.FAIL);
     expect(stdout).toContain(
       `Test Suites: ${getFailedReport('1 failed')}, ${getSuccessfulReport(
         '1 passed'
