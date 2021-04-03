@@ -1,13 +1,5 @@
 const { exec } = require('./helper/exec');
-const {
-  pass,
-  fail,
-  skip,
-  green,
-  red,
-  yellow,
-  time,
-} = require('../src/report/render');
+const { pass, green } = require('../src/report/render');
 const { FIXTURE } = require('./helper/fixtures');
 
 describe('Keyword', () => {
