@@ -5,7 +5,8 @@
   "main": "src/hlj.js",
   "scripts": {
     "test": "node src/hlj.js test",
-    "check": "node ops/pipelineCheck.js test"
+    "check": "node ops/pipelineCheck.js test",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,15 @@
     "hlj": "./src/hlj.js"
   },
   "author": "CodingStyle.cn",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "^2.2.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
 }
