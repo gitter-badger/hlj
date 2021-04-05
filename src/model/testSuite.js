@@ -45,7 +45,7 @@ class TestSuite {
       this.children
         .filter((desc) => !desc.onlyRun)
         .forEach((desc) => {
-          desc.setSkipped();
+          desc.skip();
         });
     }
 

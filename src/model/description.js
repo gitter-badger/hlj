@@ -2,7 +2,7 @@ class Description {
   constructor(name) {
     this.name = name;
     this.children = [];
-    this.isSkippd = false;
+    this.isSkipped = false;
     this.onlyRun = false;
   }
 
@@ -14,8 +14,8 @@ class Description {
       return count + child.getTotalTestCases();
     }, 0);
   }
-  setSkipped() {
-    this.isSkippd = true;
+  skip() {
+    this.isSkipped = true;
   }
 
   setOnlyRun() {
@@ -43,7 +43,7 @@ class Description {
   }
 
   execute(testCaseName) {
-    if (this.isSkippd) {
+    if (this.isSkipped) {
       this.children.forEach((child) => {
         child.status.skip();
       });
