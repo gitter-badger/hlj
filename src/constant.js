@@ -1,6 +1,7 @@
 const BLANK_SPACE = ' ';
 
 const COLOR_SCHEMA = {
+  black: '\x1B[30',
   red: '\x1B[31m',
   green: '\x1B[32m',
   yellow: '\x1B[33m',
@@ -8,6 +9,10 @@ const COLOR_SCHEMA = {
   greenBG: '\x1B[42m',
   yellowBG: '\x1B[43m',
   reset: '\x1B[0m',
+};
+
+const FONT_STYLE = {
+  bold: '1m',
 };
 
 const TEST_RESULT_ICON = {
@@ -64,4 +69,5 @@ module.exports = {
   TEST_RESULT_ICON,
   TEST_RESULT_TEXT,
   TEST_RESULT_STATUS,
+  FONT_STYLE,
 };
