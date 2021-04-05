@@ -1,11 +1,15 @@
-describe('Not run this describe ', () => {
-  it('Not run case: should 1 equal to 1', function () {
-    expect(1).toBe(2);
-  });
-});
+const { exec } = require('./helper/exec');
+const { green, yellow } = require('../src/report/render');
+const { FIXTURE } = require('./helper/fixtures');
 
-fdescribe('run it', () => {
-  it('should 1 equal to 1', function () {
-    expect(1).toBe(1);
+describe('Keyword', () => {
+  it('should run it as test', function () {
+    const stdout = exec(`hlj ${FIXTURE}/describe-only/fdescribe.test.js`);
+
+    expect(stdout).toContain('PASS');
+    expect(stdout).toContain(`Test Suites: ${green('1 passed')}, 1 total`);
+    expect(stdout).toContain(`${yellow('1 skipped')}`);
+    expect(stdout).toContain(`${green('1 passed')}`);
+    expect(stdout).toContain('2 total');
   });
 });
