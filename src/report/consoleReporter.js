@@ -3,9 +3,10 @@ const { pass, fail, green, red, yellow, time } = require('./render');
 const { TEST_RESULT_ICON } = require('../constant');
 
 class ConsoleReporter {
-  constructor(workingDir, testReport) {
+  constructor(workingDir, testReport, verbose) {
     this.workingDir = workingDir;
     this.testReport = testReport;
+    this.verbose = verbose || testReport.getTotalSuites() === 1;
   }
 
   render() {
@@ -65,19 +66,26 @@ class ConsoleReporter {
   }
 
   suiteResult() {
+    const delimiter = this.verbose ? '\n\n' : '\n';
     return this.testReport.testSuites
       .map((testSuite) => this.formatTestSuite(testSuite))
-      .join('\n\n');
+      .join(delimiter);
   }
 
   formatTestSuite(testSuite) {
-    const childrenResult = testSuite.children
-      .map((child) => this.formatChild(child))
-      .join('\n');
+    const suiteBrief = `${this.renderByStatus(
+      testSuite
+    )} ${testSuite.getPath().replace(this.workingDir, '')}`;
 
-    return `${this.renderByStatus(testSuite)} ${testSuite
-      .getPath()
-      .replace(this.workingDir, '')}\n${childrenResult}`;
+    if (this.verbose || !testSuite.isPassed()) {
+      const childrenResult = testSuite.children
+        .map((child) => this.formatChild(child))
+        .join('\n');
+
+      return suiteBrief + '\n' + childrenResult;
+    }
+
+    return suiteBrief;
   }
 
   formatChild(child) {

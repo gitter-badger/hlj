@@ -5,7 +5,7 @@ const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
 const { SHOW_LOGO } = require('./constant');
 
-const main = (fileName, testCaseName) => {
+const main = (fileName, testCaseName, verbose) => {
   const walker = new Walker();
 
   if (walker.isDir(fileName)) {
@@ -17,7 +17,11 @@ const main = (fileName, testCaseName) => {
 
   testReport.execute(testCaseName);
 
-  const consoleReport = new ConsoleReporter(process.cwd() + '/', testReport);
+  const consoleReport = new ConsoleReporter(
+    process.cwd() + '/',
+    testReport,
+    verbose
+  );
 
   const result = consoleReport.render();
   console.log(result);
@@ -29,5 +33,5 @@ const argParser = new ArgParser(process.argv);
 const fileName = process.cwd() + '/' + argParser.getPath();
 const testCaseName = argParser.getTestCaseName();
 
-const testReport = main(fileName, testCaseName);
+const testReport = main(fileName, testCaseName, argParser.verbose());
 module.exports = testReport;

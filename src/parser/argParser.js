@@ -7,7 +7,9 @@ class ArgParser {
     if (this.args.length === 2) {
       return '.';
     }
-    return this.args[this.args.length - 1];
+
+    const nonOptions = this.args.filter((arg) => !arg.startsWith('--'));
+    return nonOptions[nonOptions.length - 1];
   }
 
   getTestCaseName() {
@@ -15,6 +17,10 @@ class ArgParser {
     if (index1 === -1) return '';
     const index2 = this.args.indexOf('--');
     return this.args.slice(index1 + 1, index2).join(' ');
+  }
+
+  verbose() {
+    return this.args.includes('--verbose');
   }
 }
 
