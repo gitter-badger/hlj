@@ -27,6 +27,9 @@ class Context {
       beforeEach: (callback) => {
         this.beforeEach(callback);
       },
+      afterEach: (callback) => {
+        this.afterEach(callback);
+      },
       require: (name) => {
         return require(this.path + '/' + name);
       },
@@ -61,6 +64,10 @@ class Context {
 
   beforeEach(callback) {
     this.context.testSuite.setBeforeEach(callback);
+  }
+
+  afterEach(callback) {
+    this.context.testSuite.setAfterEach(callback);
   }
 
   test(name, callback) {

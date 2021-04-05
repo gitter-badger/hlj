@@ -41,6 +41,7 @@ class TestSuite {
     this.children.forEach((child) => {
       this.beforeEach && this.beforeEach();
       child.execute(testCaseName);
+      this.afterEach && this.afterEach();
     });
     this.updateStatus();
   }
@@ -83,6 +84,10 @@ class TestSuite {
 
   setBeforeEach(callback) {
     this.beforeEach = callback;
+  }
+
+  setAfterEach(callback) {
+    this.afterEach = callback;
   }
 }
 
