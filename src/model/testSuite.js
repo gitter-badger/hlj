@@ -38,12 +38,35 @@ class TestSuite {
   }
 
   execute(testCaseName) {
-    this.children.forEach((child) => {
-      this.beforeEach && this.beforeEach();
-      child.execute(testCaseName);
-      this.afterEach && this.afterEach();
-    });
-    this.updateStatus();
+    console.log(this.children);
+    const onlyRunItArr = this.children.filter(
+      (child) => child.onlyRunIt === true
+    );
+    if (onlyRunItArr.length !== 0) {
+      const skippedDescribes = this.children.filter(
+        (child) => !child.onlyRunIt
+      );
+
+      skippedDescribes.forEach((desc) => {
+        desc.children.forEach((child) => {
+          child.status.skip();
+        });
+      });
+
+      onlyRunItArr.forEach((child) => {
+        this.beforeEach && this.beforeEach();
+        child.execute(testCaseName);
+        this.afterEach && this.afterEach();
+      });
+      this.updateStatus();
+    } else {
+      this.children.forEach((child) => {
+        this.beforeEach && this.beforeEach();
+        child.execute(testCaseName);
+        this.afterEach && this.afterEach();
+      });
+      this.updateStatus();
+    }
   }
 
   updateStatus() {

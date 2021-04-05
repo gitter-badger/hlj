@@ -2,6 +2,7 @@ class Description {
   constructor(name) {
     this.name = name;
     this.children = [];
+    this.onlyRunIt = false;
   }
 
   getTotalTestCases() {
@@ -11,6 +12,9 @@ class Description {
       }
       return count + child.getTotalTestCases();
     }, 0);
+  }
+  setOnlyRunIt() {
+    this.onlyRunIt = true;
   }
 
   setChildren(children) {

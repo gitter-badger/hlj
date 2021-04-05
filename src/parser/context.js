@@ -18,6 +18,9 @@ class Context {
       describe: (name, callback) => {
         this.describe(name, callback);
       },
+      fdescribe: (name, callback) => {
+        this.fdescribe(name, callback);
+      },
       it: (name, callback) => {
         this.test(name, callback);
       },
@@ -47,6 +50,20 @@ class Context {
 
     this.context = vm.createContext(obj);
     return this.context;
+  }
+
+  fdescribe(name, callback) {
+    const description = new Description(name);
+    const tempChildren = this.context.tempChildren;
+    tempChildren.unshift([]);
+    callback();
+    const children = tempChildren.shift();
+    children.forEach((child) => {
+      child.parent = description;
+    });
+    description.setChildren(children);
+    description.setOnlyRunIt();
+    this.appendToParent(description);
   }
 
   describe(name, callback) {
