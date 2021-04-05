@@ -24,6 +24,9 @@ class Context {
       test: (name, callback) => {
         this.test(name, callback);
       },
+      beforeEach: (callback) => {
+        this.beforeEach(callback);
+      },
       require: (name) => {
         return require(this.path + '/' + name);
       },
@@ -56,12 +59,16 @@ class Context {
     this.appendToParent(description);
   }
 
+  beforeEach(callback) {
+    this.context.testSuite.setBeforeEach(callback);
+  }
+
   test(name, callback) {
     const testCase = new TestCase(name, callback);
     this.appendToParent(testCase);
   }
 
-  skip(name, _callback) {
+  skip(name) {
     const testCase = new TestCase(name);
     this.appendToParent(testCase);
   }
