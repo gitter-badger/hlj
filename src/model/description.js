@@ -2,7 +2,8 @@ class Description {
   constructor(name) {
     this.name = name;
     this.children = [];
-    this.onlyRunIt = false;
+    this.isSkippd = false;
+    this.onlyRun = false;
   }
 
   getTotalTestCases() {
@@ -13,8 +14,12 @@ class Description {
       return count + child.getTotalTestCases();
     }, 0);
   }
-  setOnlyRunIt() {
-    this.onlyRunIt = true;
+  setSkipped() {
+    this.isSkippd = true;
+  }
+
+  setOnlyRun() {
+    this.onlyRun = true;
   }
 
   setChildren(children) {
@@ -38,7 +43,13 @@ class Description {
   }
 
   execute(testCaseName) {
-    this.children.forEach((child) => child.execute(testCaseName));
+    if (this.isSkippd) {
+      this.children.forEach((child) => {
+        child.status.skip();
+      });
+    } else {
+      this.children.forEach((child) => child.execute(testCaseName));
+    }
   }
 
   isPassed() {

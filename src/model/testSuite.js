@@ -6,6 +6,7 @@ class TestSuite {
     this.status = new Status();
     this.descriptions = [];
     this.children = children;
+    this.onlyRun = false;
   }
 
   setStatus(status) {
@@ -38,35 +39,22 @@ class TestSuite {
   }
 
   execute(testCaseName) {
-    console.log(this.children);
-    const onlyRunItArr = this.children.filter(
-      (child) => child.onlyRunIt === true
-    );
-    if (onlyRunItArr.length !== 0) {
-      const skippedDescribes = this.children.filter(
-        (child) => !child.onlyRunIt
-      );
+    const onlyRunDescs = this.children.filter((desc) => desc.onlyRun);
 
-      skippedDescribes.forEach((desc) => {
-        desc.children.forEach((child) => {
-          child.status.skip();
+    if (onlyRunDescs.length > 0) {
+      this.children
+        .filter((desc) => !desc.onlyRun)
+        .forEach((desc) => {
+          desc.setSkipped();
         });
-      });
-
-      onlyRunItArr.forEach((child) => {
-        this.beforeEach && this.beforeEach();
-        child.execute(testCaseName);
-        this.afterEach && this.afterEach();
-      });
-      this.updateStatus();
-    } else {
-      this.children.forEach((child) => {
-        this.beforeEach && this.beforeEach();
-        child.execute(testCaseName);
-        this.afterEach && this.afterEach();
-      });
-      this.updateStatus();
     }
+
+    this.children.forEach((child) => {
+      this.beforeEach && this.beforeEach();
+      child.execute(testCaseName);
+      this.afterEach && this.afterEach();
+    });
+    this.updateStatus();
   }
 
   updateStatus() {

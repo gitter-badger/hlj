@@ -62,7 +62,7 @@ class Context {
       child.parent = description;
     });
     description.setChildren(children);
-    description.setOnlyRunIt();
+    description.setOnlyRun();
     this.appendToParent(description);
   }
 
