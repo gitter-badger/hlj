@@ -55,7 +55,15 @@ describe('Console Reporter', () => {
 
   it('should print bold font for testSuite when testSuite passed', () => {
     const stdout = exec(`hlj ${FIXTURE}/suite-count`);
+
     expect(stdout).toContain('PASS');
     expect(stdout).toContain('\x1B[42m\x1B[30;1m PASS');
+  });
+
+  it('should print bold font for testSuite when testSuite failed', () => {
+    const stdout = exec(`hlj ${FIXTURE}/suite-failed-count`);
+
+    expect(stdout).toContain('FAIL');
+    expect(stdout).toContain('\x1B[41m\x1B[30;1m FAIL');
   });
 });
