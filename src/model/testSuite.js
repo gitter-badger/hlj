@@ -50,8 +50,7 @@ class TestSuite {
   }
 
   updateOnlyRunStatus() {
-    const isOnlyRunExisted =
-      this.children.find((desc) => desc.onlyRun) !== undefined;
+    const isOnlyRunExisted = !!this.children.find((desc) => desc.onlyRun);
 
     if (isOnlyRunExisted) {
       this.children
