@@ -48,7 +48,10 @@ class Description {
         child.status.skip();
       });
     } else {
-      this.children.forEach((child) => child.execute(testCaseName));
+      this.children.forEach((child) => {
+        this.beforeEach && this.beforeEach();
+        child.execute(testCaseName);
+      });
     }
   }
 
@@ -72,6 +75,10 @@ class Description {
     return this.children
       .map((child) => child.getSkippedCount())
       .reduce((a, b) => a + b, 0);
+  }
+
+  setBeforeEach(callback) {
+    this.beforeEach = callback;
   }
 }
 

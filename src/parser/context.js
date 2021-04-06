@@ -14,6 +14,7 @@ class Context {
 
     const obj = {
       tempChildren,
+      descriptions: [],
       testSuite,
       describe: (name, callback) => {
         this.describe(name, callback);
@@ -68,6 +69,7 @@ class Context {
 
   describe(name, callback) {
     const description = new Description(name);
+    this.context.descriptions.unshift(description);
     const tempChildren = this.context.tempChildren;
     tempChildren.unshift([]);
     callback();
@@ -77,10 +79,15 @@ class Context {
     });
     description.setChildren(children);
     this.appendToParent(description);
+    this.context.descriptions.shift(description);
   }
 
   beforeEach(callback) {
-    this.context.testSuite.setBeforeEach(callback);
+    if (this.context.descriptions.length > 0) {
+      this.context.descriptions[0].setBeforeEach(callback);
+    } else {
+      this.context.testSuite.setBeforeEach(callback);
+    }
   }
 
   afterEach(callback) {
