@@ -9,3 +9,9 @@ fdescribe('run it', () => {
     expect(1).toBe(1);
   });
 });
+
+fdescribe('run again', () => {
+  it('should 1 equal to 1', () => {
+    expect(1).toBe(1);
+  });
+});

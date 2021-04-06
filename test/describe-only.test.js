@@ -9,7 +9,6 @@ describe('Keyword', () => {
     expect(stdout).toContain('PASS');
     expect(stdout).toContain(`Test Suites: ${green('1 passed')}, 1 total`);
     expect(stdout).toContain(`${yellow('1 skipped')}`);
-    expect(stdout).toContain(`${green('1 passed')}`);
-    expect(stdout).toContain('2 total');
+    expect(stdout).toContain(`${green('2 passed')}, 3 total`);
   });
 });
