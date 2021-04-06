@@ -6,7 +6,6 @@ class TestSuite {
     this.status = new Status();
     this.descriptions = [];
     this.children = children;
-    this.onlyRun = false;
   }
 
   setStatus(status) {
