@@ -49,13 +49,13 @@ class TestSuite {
   }
 
   updateOnlyRunStatus() {
-    const isOnlyRunExisted = !!this.children.find((desc) => desc.onlyRun);
+    const isOnlyRunExisted = !!this.children.find((child) => child.onlyRun);
 
     if (isOnlyRunExisted) {
       this.children
-        .filter((desc) => !desc.onlyRun)
-        .forEach((desc) => {
-          desc.skip();
+        .filter((child) => !child.onlyRun)
+        .forEach((child) => {
+          child.skip();
         });
     }
   }

@@ -15,7 +15,9 @@ class Description {
     }, 0);
   }
   skip() {
-    this.isSkipped = true;
+    this.children.forEach((child) => {
+      child.skip();
+    });
   }
 
   setOnlyRun() {

@@ -19,6 +19,7 @@ class TestCase {
   }
 
   execute(testCaseName) {
+    if (this.isSkipped()) return;
     const startedAt = Date.now();
 
     if (!this.callback) {
@@ -104,6 +105,11 @@ class TestCase {
 
   setOnlyRun() {
     this.onlyRun = true;
+  }
+  skip() {
+    if (!this.onlyRun) {
+      this.status.skip();
+    }
   }
 }
 

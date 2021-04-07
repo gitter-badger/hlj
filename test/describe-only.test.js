@@ -36,3 +36,14 @@ describe('describe.only', () => {
     expect(stdout).toContain('3 total');
   });
 });
+
+describe('fit nested', () => {
+  it('should not skip describe contains fit test', () => {
+    const stdout = exec(`hlj ${FIXTURE}/only/fit-describe.test.js`);
+
+    expect(stdout).toContain('PASS');
+    expect(stdout).toContain('1 skipped');
+    expect(stdout).toContain('2 passed');
+    expect(stdout).toContain('3 total');
+  });
+});
