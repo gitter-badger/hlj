@@ -64,9 +64,7 @@ class Context {
   }
 
   fit(name, callback) {
-    const testCase = new TestCase(name, callback);
-    this.appendToParent(testCase);
-    testCase.setOnlyRun();
+    this.test(name, callback).setOnlyRun();
   }
 
   fdescribe(name, callback) {
@@ -108,6 +106,7 @@ class Context {
   test(name, callback) {
     const testCase = new TestCase(name, callback);
     this.appendToParent(testCase);
+    return testCase;
   }
 
   skip(name) {
