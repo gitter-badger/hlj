@@ -25,3 +25,14 @@ describe('only run fdescribe nested in a suite', () => {
     expect(stdout).toContain('3 total');
   });
 });
+
+describe('describe.only', () => {
+  it('should run describe.only and skip others ', () => {
+    const stdout = exec(`hlj ${FIXTURE}/describe-only/describe.only.test.js`);
+
+    expect(stdout).toContain('PASS');
+    expect(stdout).toContain('2 skipped');
+    expect(stdout).toContain('1 passed');
+    expect(stdout).toContain('3 total');
+  });
+});

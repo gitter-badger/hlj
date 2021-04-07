@@ -49,6 +49,13 @@ class Context {
       writable: true,
     });
 
+    Object.defineProperty(obj.describe, 'only', {
+      value: (name, callback) => {
+        this.fdescribe(name, callback);
+      },
+      writable: true,
+    });
+
     this.context = vm.createContext(obj);
     return this.context;
   }
