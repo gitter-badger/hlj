@@ -89,7 +89,11 @@ class Context {
   }
 
   afterEach(callback) {
-    this.context.testSuite.setAfterEach(callback);
+    if (this.context.descriptions.length > 0) {
+      this.context.descriptions[0].setAfterEach(callback);
+    } else {
+      this.context.testSuite.setAfterEach(callback);
+    }
   }
 
   test(name, callback) {

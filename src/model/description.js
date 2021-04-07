@@ -51,6 +51,7 @@ class Description {
       this.children.forEach((child) => {
         this.beforeEach && this.beforeEach();
         child.execute(testCaseName);
+        this.afterEach && this.afterEach();
       });
     }
   }
@@ -79,6 +80,10 @@ class Description {
 
   setBeforeEach(callback) {
     this.beforeEach = callback;
+  }
+
+  setAfterEach(callback) {
+    this.afterEach = callback;
   }
 }
 

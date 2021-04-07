@@ -19,9 +19,21 @@ describe('Hook', () => {
   });
 
   describe('In describe', () => {
-    it('should run before each test case', () => {
-      const stdout = exec(`hlj ${FIXTURE}/hook/beforeEach-in-describe.test.js`);
-      expect(stdout).toContain('PASS');
+    describe('beforeEach', () => {
+      it('should run before each test case', () => {
+        const stdout = exec(
+          `hlj ${FIXTURE}/hook/beforeEach-in-describe.test.js`
+        );
+        expect(stdout).toContain('PASS');
+      });
+    });
+    describe('afterEach', () => {
+      it('should run after each test case', () => {
+        const stdout = exec(
+          `hlj ${FIXTURE}/hook/afterEach-in-describe.test.js`
+        );
+        expect(stdout).toContain('PASS');
+      });
     });
   });
 });
