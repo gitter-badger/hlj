@@ -20,8 +20,8 @@ describe('only run fdescribe nested in a suite', () => {
     );
 
     expect(stdout).toContain('PASS');
-    expect(stdout).toContain('1 skipped');
-    expect(stdout).toContain('2 passed');
+    expect(stdout).toContain('2 skipped');
+    expect(stdout).toContain('1 passed');
     expect(stdout).toContain('3 total');
   });
 });

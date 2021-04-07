@@ -48,9 +48,7 @@ class Description {
         child.status.skip();
       });
     } else {
-      const onlyRunTestCases = this.children.filter(
-        (testCase) => !!testCase.onlyRun
-      );
+      const onlyRunTestCases = this.children.filter((child) => !!child.onlyRun);
 
       if (onlyRunTestCases.length > 0) {
         this.skipOthers();
