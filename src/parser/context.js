@@ -22,6 +22,9 @@ class Context {
       fdescribe: (name, callback) => {
         this.fdescribe(name, callback);
       },
+      fit: (name, callback) => {
+        this.fit(name, callback);
+      },
       it: (name, callback) => {
         this.test(name, callback);
       },
@@ -58,6 +61,12 @@ class Context {
 
     this.context = vm.createContext(obj);
     return this.context;
+  }
+
+  fit(name, callback) {
+    const testCase = new TestCase(name, callback);
+    this.appendToParent(testCase);
+    testCase.setOnlyRun();
   }
 
   fdescribe(name, callback) {

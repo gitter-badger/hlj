@@ -7,6 +7,7 @@ class TestCase {
     this.status = new Status();
     this.expected = '';
     this.received = '';
+    this.onlyRun = false;
   }
 
   getName() {
@@ -99,6 +100,10 @@ class TestCase {
 
   getReceived() {
     return this.received;
+  }
+
+  setOnlyRun() {
+    this.onlyRun = true;
   }
 }
 

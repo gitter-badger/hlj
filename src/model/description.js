@@ -48,12 +48,33 @@ class Description {
         child.status.skip();
       });
     } else {
-      this.children.forEach((child) => {
-        this.beforeEach && this.beforeEach();
-        child.execute(testCaseName);
-        this.afterEach && this.afterEach();
-      });
+      const onlyRunTestCases = this.children.filter(
+        (testCase) => !!testCase.onlyRun
+      );
+
+      if (onlyRunTestCases.length > 0) {
+        this.skipOthers();
+        onlyRunTestCases.forEach((child) => {
+          this.beforeEach && this.beforeEach();
+          child.execute(testCaseName);
+        });
+      } else {
+        this.children.forEach((child) => {
+          this.beforeEach && this.beforeEach();
+          child.execute(testCaseName);
+        });
+      }
     }
+  }
+
+  skipOthers() {
+    this.children
+      .filter((testCase) => {
+        return !testCase.onlyRun;
+      })
+      .forEach((testCase) => {
+        testCase.status.skip();
+      });
   }
 
   isPassed() {
