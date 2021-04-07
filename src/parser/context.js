@@ -61,17 +61,7 @@ class Context {
   }
 
   fdescribe(name, callback) {
-    const description = new Description(name);
-    const tempChildren = this.context.tempChildren;
-    tempChildren.unshift([]);
-    callback();
-    const children = tempChildren.shift();
-    children.forEach((child) => {
-      child.parent = description;
-    });
-    description.setChildren(children);
-    description.setOnlyRun();
-    this.appendToParent(description);
+    this.describe(name, callback).setOnlyRun();
   }
 
   describe(name, callback) {
@@ -87,6 +77,7 @@ class Context {
     description.setChildren(children);
     this.appendToParent(description);
     this.context.descriptions.shift(description);
+    return description;
   }
 
   beforeEach(callback) {
