@@ -21,11 +21,13 @@ timeOfJest=$time
 
 times=$(expr $timeOfJest / $timeOfHlj)
 
+echo "hlj takes ${timeOfHlj}s"
+echo "Jest takes ${timeOfJest}s"
+echo "hlj is faster than Jest ${times} times"
+
 expectedTimes=2
 if test $times -lt $expectedTimes
 then
-  echo "hlj takes ${timeOfHlj}s"
-  echo "Jest takes ${timeOfJest}s"
-  echo "Hlj shoud keep ${expectedTimes} times more than Jest."
+  echo "Hlj shoud keep ${expectedTimes} times faster than Jest."
   exit 1
 fi
