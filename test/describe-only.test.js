@@ -4,7 +4,7 @@ const { FIXTURE } = require('./helper/fixtures');
 
 describe('only run fdescribe function in a suite', () => {
   it('should run it as test', function () {
-    const stdout = exec(`hlj ${FIXTURE}/describe-only/fdescribe.test.js`);
+    const stdout = exec(`hlj ${FIXTURE}/only/fdescribe.test.js`);
 
     expect(stdout).toContain('PASS');
     expect(stdout).toContain(`Test Suites: ${green('1 passed')}, 1 total`);
@@ -15,9 +15,7 @@ describe('only run fdescribe function in a suite', () => {
 
 describe('only run fdescribe nested in a suite', () => {
   it('should return 1 skipped 2 passed and 3 total', () => {
-    const stdout = exec(
-      `hlj ${FIXTURE}/describe-only/fdescribe-nested.test.js`
-    );
+    const stdout = exec(`hlj ${FIXTURE}/only/fdescribe-nested.test.js`);
 
     expect(stdout).toContain('PASS');
     expect(stdout).toContain('2 skipped');
@@ -28,7 +26,7 @@ describe('only run fdescribe nested in a suite', () => {
 
 describe('describe.only', () => {
   it('should run describe.only and skip others ', () => {
-    const stdout = exec(`hlj ${FIXTURE}/describe-only/describe.only.test.js`);
+    const stdout = exec(`hlj ${FIXTURE}/only/describe.only.test.js`);
 
     expect(stdout).toContain('PASS');
     expect(stdout).toContain('2 skipped');
