@@ -19,12 +19,13 @@ fi
 getTimeOf 'jest test/'
 timeOfJest=$time
 
-echo $timeOfHlj
-echo $timeOfJest
 times=$(expr $timeOfJest / $timeOfHlj)
-echo $times
 
-if test $times -lt 3
+expectedTimes=2
+if test $times -lt $expectedTimes
 then
+  echo "hlj takes ${timeOfHlj}s"
+  echo "Jest takes ${timeOfJest}s"
+  echo "Hlj shoud keep ${expectedTimes} times more than Jest."
   exit 1
 fi
