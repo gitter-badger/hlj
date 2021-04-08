@@ -29,3 +29,4 @@ jobs:
     - run: npm run build --if-present
     - run: npm run check
     - run: npx jest test/
+    - run: sh ./ops/performance-guarantee.sh
