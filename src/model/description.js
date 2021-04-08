@@ -14,6 +14,7 @@ class Description {
       return count + child.getTotalTestCases();
     }, 0);
   }
+
   skip() {
     this.children.forEach((child) => {
       child.skip();
@@ -49,33 +50,31 @@ class Description {
       this.children.forEach((child) => {
         child.status.skip();
       });
-    } else {
-      const onlyRunTestCases = this.children.filter((child) => !!child.onlyRun);
-
-      if (onlyRunTestCases.length > 0) {
-        this.skipOthers();
-        onlyRunTestCases.forEach((child) => {
-          this.beforeEach && this.beforeEach();
-          child.execute(testCaseName);
-          this.afterEach && this.afterEach();
-        });
-      } else {
-        this.children.forEach((child) => {
-          this.beforeEach && this.beforeEach();
-          child.execute(testCaseName);
-          this.afterEach && this.afterEach();
-        });
-      }
+      return;
     }
+
+    const onlyRunTestCases = this.children.filter((child) => !!child.onlyRun);
+
+    let toRunList = this.children;
+    if (onlyRunTestCases.length > 0) {
+      this.skipOthers();
+      toRunList = onlyRunTestCases;
+    }
+
+    toRunList.forEach((child) => {
+      this.beforeEach && this.beforeEach();
+      child.execute(testCaseName);
+      this.afterEach && this.afterEach();
+    });
   }
 
   skipOthers() {
     this.children
-      .filter((testCase) => {
-        return !testCase.onlyRun;
+      .filter((child) => {
+        return !child.onlyRun;
       })
-      .forEach((testCase) => {
-        testCase.status.skip();
+      .forEach((child) => {
+        child.skip();
       });
   }
 

@@ -106,6 +106,7 @@ class TestCase {
   setOnlyRun() {
     this.onlyRun = true;
   }
+
   skip() {
     if (!this.onlyRun) {
       this.status.skip();
