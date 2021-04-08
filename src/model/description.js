@@ -57,11 +57,13 @@ class Description {
         onlyRunTestCases.forEach((child) => {
           this.beforeEach && this.beforeEach();
           child.execute(testCaseName);
+          this.afterEach && this.afterEach();
         });
       } else {
         this.children.forEach((child) => {
           this.beforeEach && this.beforeEach();
           child.execute(testCaseName);
+          this.afterEach && this.afterEach();
         });
       }
     }
