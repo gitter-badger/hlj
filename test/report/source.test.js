@@ -26,4 +26,12 @@ describe('Source code', () => {
     expect(stdout).toContain('6 | ');
     expect(stdout).toContain('7 | ');
   });
+
+  it('should show the path of failed suite', () => {
+    const stdout = exec(`hlj ${FIXTURE}/long-source.test.js`);
+    expect(stdout).toContain('FAIL');
+    expect(stdout).toContain(
+      'at Object.<anonymous> (fixture/long-source.test.js:6)'
+    );
+  });
 });

@@ -194,7 +194,8 @@ class ConsoleReporter {
     return new SourceCodeRender(
       parser.getCodeLines(),
       parser.getStartLineNumber(),
-      testCase
+      testCase,
+      this.workingDir
     ).render();
   }
 

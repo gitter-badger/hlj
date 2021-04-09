@@ -1,16 +1,28 @@
 const { underline, green } = require('./render');
 
 class SourceCodeRender {
-  constructor(code, startLineNumber, testCase) {
+  constructor(code, startLineNumber, testCase, workingDir) {
     this.code = code;
     this.lineNumber = startLineNumber;
     this.testCase = testCase;
+    this.workingDir = workingDir;
   }
 
   render() {
-    return this.code
+    const code = this.code
       .map((line) => this.lineNumber++ + ' |  ' + this.renderLine(line))
       .join('\n');
+    return code + '\n\n' + this.position();
+  }
+
+  position() {
+    return `at Object.<anonymous> (${this.relativePath()}:${
+      this.assertionLineNumber
+    })`;
+  }
+
+  relativePath() {
+    return this.testCase.getSuite().getPath().replace(this.workingDir, '');
   }
 
   renderLine(line) {
@@ -24,6 +36,7 @@ class SourceCodeRender {
     }
 
     if (this.isAssertion(line)) {
+      this.assertionLineNumber = this.lineNumber - 1;
       return line.substr(0, 2) + underline(line.trim());
     }
 
