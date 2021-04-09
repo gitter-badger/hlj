@@ -5,6 +5,7 @@ const COLOR_SCHEMA = {
   red: '\x1B[31m',
   green: '\x1B[32m',
   yellow: '\x1B[33m',
+  blue: '\x1B[34m',
   redBG: '\x1B[41m',
   greenBG: '\x1B[42m',
   yellowBG: '\x1B[43m',

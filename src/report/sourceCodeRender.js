@@ -1,4 +1,4 @@
-const { underline, green } = require('./render');
+const { underline, green, blue } = require('./render');
 
 class SourceCodeRender {
   constructor(code, startLineNumber, testCase, workingDir) {
@@ -16,7 +16,7 @@ class SourceCodeRender {
   }
 
   position() {
-    return `at Object.<anonymous> (${this.relativePath()}:${
+    return `at Object.<anonymous> (${blue(this.relativePath())}:${
       this.assertionLineNumber
     })`;
   }
