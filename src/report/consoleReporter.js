@@ -187,7 +187,8 @@ class ConsoleReporter {
 
   sourceCode(testCase) {
     const sourceCode = new SourceCodeParser().read(
-      testCase.getSuite().getPath()
+      testCase.getSuite().getPath(),
+      testCase.getName()
     );
 
     return new SourceCodeRender(sourceCode, testCase).render();
