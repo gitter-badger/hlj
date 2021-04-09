@@ -186,12 +186,16 @@ class ConsoleReporter {
   }
 
   sourceCode(testCase) {
-    const sourceCode = new SourceCodeParser().read(
+    const parser = new SourceCodeParser(
       testCase.getSuite().getPath(),
       testCase.getName()
     );
 
-    return new SourceCodeRender(sourceCode, testCase).render();
+    return new SourceCodeRender(
+      parser.getCodeLines(),
+      parser.getStartLineNumber(),
+      testCase
+    ).render();
   }
 
   renderByStatus(testSuite) {

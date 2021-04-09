@@ -1,15 +1,15 @@
 const { underline, green } = require('./render');
 
 class SourceCodeRender {
-  constructor(code, testCase) {
+  constructor(code, startLineNumber, testCase) {
     this.code = code;
+    this.lineNumber = startLineNumber;
     this.testCase = testCase;
   }
 
   render() {
     return this.code
-      .split('\n')
-      .map((line) => this.renderLine(line))
+      .map((line) => this.lineNumber++ + ' |  ' + this.renderLine(line))
       .join('\n');
   }
 

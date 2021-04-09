@@ -1,18 +1,21 @@
 const fs = require('fs');
 
 class SourceCodeParser {
-  read(path, testCaseName) {
-    const code = fs.readFileSync(path, 'utf8');
-    return this.search(code, testCaseName);
+  constructor(path, testCaseName) {
+    this.content = fs.readFileSync(path, 'utf8').trim();
+    this.codeLines = this.search(testCaseName);
   }
 
-  search(code, testCaseName) {
-    const lines = code.split('\n');
+  search(testCaseName) {
+    const lines = this.content.split('\n');
     let start = false;
     const result = [];
+    let i = 0;
     for (const line of lines) {
+      i++;
       if (line.indexOf(testCaseName) > 0) {
         start = true;
+        this.startLineNumber = i;
       }
 
       if (line.indexOf('})') > 0) {
@@ -24,7 +27,15 @@ class SourceCodeParser {
       }
     }
 
-    return result.join('\n');
+    return result;
+  }
+
+  getCodeLines() {
+    return this.codeLines;
+  }
+
+  getStartLineNumber() {
+    return this.startLineNumber;
   }
 }
 

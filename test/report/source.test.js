@@ -18,4 +18,12 @@ describe('Source code', () => {
     expect(stdout).toContain('expect(1).toBe(2);');
     expect(stdout).toContain('});');
   });
+
+  it('should show line number', () => {
+    const stdout = exec(`hlj ${FIXTURE}/long-source.test.js`);
+    expect(stdout).toContain('FAIL');
+    expect(stdout).toContain('5 | ');
+    expect(stdout).toContain('6 | ');
+    expect(stdout).toContain('7 | ');
+  });
 });
