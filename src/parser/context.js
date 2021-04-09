@@ -118,13 +118,13 @@ class Context {
   }
 
   test(name, callback) {
-    const testCase = new TestCase(name, callback);
+    const testCase = new TestCase(this.context.testSuite, name, callback);
     this.appendToParent(testCase);
     return testCase;
   }
 
   skip(name) {
-    const testCase = new TestCase(name);
+    const testCase = new TestCase(this.context.testSuite, name);
     this.appendToParent(testCase);
   }
 

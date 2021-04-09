@@ -1,13 +1,14 @@
 const Status = require('./status');
 
 class TestCase {
-  constructor(name, callback) {
+  constructor(suite, name, callback) {
     this.name = name;
     this.callback = callback;
     this.status = new Status();
     this.expected = '';
     this.received = '';
     this.onlyRun = false;
+    this.suite = suite;
   }
 
   getName() {
@@ -111,6 +112,10 @@ class TestCase {
     if (!this.onlyRun) {
       this.status.skip();
     }
+  }
+
+  getSuite() {
+    return this.suite;
   }
 }
 

@@ -1,6 +1,8 @@
 const { pass, fail, green, red, yellow, time } = require('./render');
 
 const { TEST_RESULT_ICON } = require('../constant');
+const SourceCodeParser = require('./sourceCodeParser');
+const SourceCodeRender = require('./sourceCodeRender');
 
 class ConsoleReporter {
   constructor(workingDir, testReport, verbose) {
@@ -180,7 +182,15 @@ class ConsoleReporter {
 
     return `Expected: ${green(testCase.getExpected())}\nReceived: ${red(
       testCase.getReceived()
-    )}`;
+    )}\n\n${this.indentAll(1, this.sourceCode(testCase))}`;
+  }
+
+  sourceCode(testCase) {
+    const sourceCode = new SourceCodeParser().read(
+      testCase.getSuite().getPath()
+    );
+
+    return new SourceCodeRender(sourceCode, testCase).render();
   }
 
   renderByStatus(testSuite) {
