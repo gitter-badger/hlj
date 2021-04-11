@@ -194,9 +194,8 @@ class ConsoleReporter {
   sourceCode(testCase) {
     const parser = new SourceCodeParser(
       testCase.getSuite().getPath(),
-      testCase.getName()
+      testCase.getFailPosition().row
     );
-
     return new SourceCodeRender(
       parser.getCodeLines(),
       parser.getStartLineNumber(),
