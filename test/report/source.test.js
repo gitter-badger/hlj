@@ -33,4 +33,10 @@ describe('Source code', () => {
     expect(stdout).toContain('at Object.<anonymous> (');
     expect(stdout).toContain(':6');
   });
+
+  it('should highlight the line where match failed', () => {
+    const stdout = exec(`hlj ${FIXTURE}/long-source.test.js`);
+    expect(stdout).toContain('FAIL');
+    expect(stdout).toContain('> 6 | ');
+  });
 });

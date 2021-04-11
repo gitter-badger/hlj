@@ -16,10 +16,13 @@ class SourceCodeRender {
       this.startLineNumber,
       this.code.length
     );
-    const code = this.code
-      .map((line, index) => lineNumbers[index] + ' |  ' + this.renderLine(line))
-      .join('\n');
-    return code + '\n\n' + this.position();
+    const code = this.code.map(
+      (line, index) =>
+        '  ' + lineNumbers[index] + ' |  ' + this.renderLine(line)
+    );
+    let failedRowIndex = this.failPosition.row - this.startLineNumber;
+    code[failedRowIndex] = code[failedRowIndex].replace(' ', '>');
+    return code.join('\n') + '\n\n' + this.position();
   }
 
   position() {

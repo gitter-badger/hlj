@@ -188,7 +188,7 @@ class ConsoleReporter {
 
     return `Expected: ${green(testCase.getExpected())}\nReceived: ${red(
       testCase.getReceived()
-    )}\n\n${this.indentAll(1, this.sourceCode(testCase))}`;
+    )}\n\n${this.sourceCode(testCase)}`;
   }
 
   sourceCode(testCase) {
