@@ -39,10 +39,16 @@ class ConsoleReporter {
   }
 
   suiteStatistics() {
-    return `Test Suites: ${this._renderFailedSuites()}${green(
-      this.testReport.getPassedSuites() + ' passed'
-    )}, ${this.testReport.getTotalSuites()} total`;
+    return `Test Suites: ${this._renderFailedSuites()}${this._renderPassedSuites()}${this.testReport.getTotalSuites()} total`;
   }
+
+  _renderPassedSuites() {
+    if (this.testReport.getPassedSuites() === 0) {
+      return '';
+    }
+    return `${green(this.testReport.getPassedSuites() + ' passed')}, `;
+  }
+
   _renderFailedSuites() {
     if (this.testReport.getFailedSuites() === 0) {
       return '';
@@ -206,8 +212,10 @@ class ConsoleReporter {
 
     return fail('FAIL');
   }
+
   isPassed() {
     return this.testReport.isPassed();
   }
 }
+
 module.exports = ConsoleReporter;
