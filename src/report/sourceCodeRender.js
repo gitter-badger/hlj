@@ -6,6 +6,7 @@ class SourceCodeRender {
     this.lineNumber = startLineNumber;
     this.testCase = testCase;
     this.workingDir = workingDir;
+    this.failPosition = testCase.getFailPosition();
   }
 
   render() {
@@ -17,7 +18,7 @@ class SourceCodeRender {
 
   position() {
     return `at Object.<anonymous> (${blue(this.relativePath())}:${
-      this.assertionLineNumber
+      this.failPosition.row
     })`;
   }
 
@@ -35,19 +36,11 @@ class SourceCodeRender {
       );
     }
 
-    if (this.isAssertion(line)) {
-      this.assertionLineNumber = this.lineNumber - 1;
+    if (this.failPosition.row === this.lineNumber - 1) {
       return line.substr(0, 2) + underline(line.trim());
     }
 
     return line;
-  }
-
-  isAssertion(line) {
-    return (
-      line.indexOf(this.testCase.getExpected()) > 0 &&
-      line.indexOf(this.testCase.getReceived()) > 0
-    );
   }
 }
 

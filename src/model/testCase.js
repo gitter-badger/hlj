@@ -38,6 +38,7 @@ class TestCase {
       this.callback();
       this.status.pass();
     } catch (e) {
+      this.failPosition = this.findPosition(e.stack);
       try {
         const { expected, received } = JSON.parse(e.message);
         this.expected = expected;
@@ -50,6 +51,12 @@ class TestCase {
     }
 
     this.elapsed = Date.now() - startedAt;
+  }
+
+  findPosition(stack) {
+    const regExp = /\(evalmachine.<anonymous>:(\d+):(\d+)\)/g;
+    const result = regExp.exec(stack);
+    return { row: parseInt(result[1], 10), col: parseInt(result[2], 10) };
   }
 
   removeQuote(regExText) {
@@ -116,6 +123,10 @@ class TestCase {
 
   getSuite() {
     return this.suite;
+  }
+
+  getFailPosition() {
+    return this.failPosition;
   }
 }
 
