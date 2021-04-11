@@ -1,17 +1,23 @@
 const { underline, green, blue } = require('./render');
 
+const LineNumberFormatter = require('./lineNumberFormatter');
+
 class SourceCodeRender {
   constructor(code, startLineNumber, testCase, workingDir) {
     this.code = code;
-    this.lineNumber = startLineNumber;
+    this.startLineNumber = startLineNumber;
     this.testCase = testCase;
     this.workingDir = workingDir;
     this.failPosition = testCase.getFailPosition();
   }
 
   render() {
+    const lineNumbers = new LineNumberFormatter().generateLineNumbers(
+      this.startLineNumber,
+      this.code.length
+    );
     const code = this.code
-      .map((line) => this.lineNumber++ + ' |  ' + this.renderLine(line))
+      .map((line, index) => lineNumbers[index] + ' |  ' + this.renderLine(line))
       .join('\n');
     return code + '\n\n' + this.position();
   }
