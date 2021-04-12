@@ -1,4 +1,4 @@
-const { underline, green, blue } = require('./render');
+const { underline, green, blue, red } = require('./render');
 
 const LineNumberFormatter = require('./lineNumberFormatter');
 
@@ -21,7 +21,7 @@ class SourceCodeRender {
         '  ' + lineNumbers[index] + ' |  ' + this.renderLine(line)
     );
     let failedRowIndex = this.failPosition.row - this.startLineNumber;
-    code[failedRowIndex] = code[failedRowIndex].replace(' ', '>');
+    code[failedRowIndex] = code[failedRowIndex].replace(' ', red('>'));
     return code.join('\n') + '\n\n' + this.position();
   }
 

@@ -1,5 +1,6 @@
 const { exec } = require('../helper/exec');
 const { FIXTURE } = require('../helper/fixtures');
+const { red } = require('../../src/report/render');
 
 describe('Source code', () => {
   it('show source code when test case failed', () => {
@@ -37,6 +38,6 @@ describe('Source code', () => {
   it('should highlight the line where match failed', () => {
     const stdout = exec(`hlj ${FIXTURE}/long-source.test.js`);
     expect(stdout).toContain('FAIL');
-    expect(stdout).toContain('> 6 | ');
+    expect(stdout).toContain(`${red('>')} 6 | `);
   });
 });
