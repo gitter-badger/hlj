@@ -119,8 +119,14 @@ class ConsoleReporter {
   }
 
   getIcon(testCase) {
-    if (testCase.isSkipped()) return yellow(TEST_RESULT_ICON.SKIP);
-    if (testCase.isPassed()) return green(TEST_RESULT_ICON.PASS);
+    if (testCase.isSkipped()) {
+      return yellow(TEST_RESULT_ICON.SKIP);
+    }
+
+    if (testCase.isPassed()) {
+      return green(TEST_RESULT_ICON.PASS);
+    }
+
     return red(TEST_RESULT_ICON.FAIL);
   }
 
