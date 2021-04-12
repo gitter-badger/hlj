@@ -16,13 +16,32 @@ class SourceCodeRender {
       this.startLineNumber,
       this.code.length
     );
-    const code = this.code.map(
+    let failedRowIndex = this.failPosition.row - this.startLineNumber;
+    lineNumbers.splice(
+      failedRowIndex + 1,
+      0,
+      new LineNumberFormatter().fillBlanks(lineNumbers[0].length)
+    );
+    this.insertFailColumnMarker(this.code, failedRowIndex + 1);
+    const lineNumberAdded = this.code.map(
       (line, index) =>
         '  ' + lineNumbers[index] + ' |  ' + this.renderLine(line)
     );
-    let failedRowIndex = this.failPosition.row - this.startLineNumber;
-    code[failedRowIndex] = code[failedRowIndex].replace(' ', red('>'));
-    return code.join('\n') + '\n\n' + this.position();
+    lineNumberAdded[failedRowIndex] = lineNumberAdded[failedRowIndex].replace(
+      ' ',
+      red('>')
+    );
+    return lineNumberAdded.join('\n') + '\n\n' + this.position();
+  }
+
+  insertFailColumnMarker(codes, index) {
+    codes.splice(index, 0, this.columnMarker());
+  }
+
+  columnMarker() {
+    return (
+      new LineNumberFormatter().fillBlanks(this.failPosition.col - 1) + red('^')
+    );
   }
 
   position() {

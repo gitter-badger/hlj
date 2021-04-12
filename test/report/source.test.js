@@ -40,4 +40,10 @@ describe('Source code', () => {
     expect(stdout).toContain('FAIL');
     expect(stdout).toContain(`${red('>')} 6 | `);
   });
+
+  it('should highlight the column where match failed', () => {
+    const stdout = exec(`hlj ${FIXTURE}/long-source.test.js`);
+    expect(stdout).toContain('FAIL');
+    expect(stdout).toContain(`${red('^')}`);
+  });
 });
