@@ -7,7 +7,7 @@ const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
 const { SHOW_LOGO } = require('./constant');
 
-const handleCommand = async (key, fileName) => {
+const handleCommand = (key, fileName) => {
   if (key === 'q') process.exit();
   if (key === 'a') {
     main(workingDir, argParser.getPath(), testCaseName, argParser.verbose());
@@ -17,10 +17,10 @@ const handleCommand = async (key, fileName) => {
   }
 };
 
-async function* gen() {
+function* gen() {
   while (true) {
-    const key = yield;
-    await handleCommand(key);
+    const { key, fileName = argParser.getPath() } = yield;
+    handleCommand(key, fileName);
   }
 }
 
@@ -64,20 +64,22 @@ if (argParser.watchMode()) {
   const g = gen();
   g.next();
 
-  fs.watch(workingDir, { recursive: true }, async (eventType, fileName) => {
+  fs.watch(workingDir, { recursive: true }, (eventType, fileName) => {
     flushScreen();
     const walker = new Walker();
     const isTestFile = walker.isTestFile(fileName);
 
-    isTestFile ? await handleCommand('o') : await handleCommand('a');
+    isTestFile ? g.next({ key: 'o', fileName }) : g.next({ key: 'a' });
   });
 
-  var stdin = process.openStdin();
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.resume();
 
-  stdin.on('data', async function (data) {
+  stdin.on('data', function (data) {
     flushScreen();
     const key = data.toString().trim();
-    await g.next(key);
+    g.next({ key });
   });
 }
 module.exports = testReport;
