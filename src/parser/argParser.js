@@ -22,6 +22,10 @@ class ArgParser {
   verbose() {
     return this.args.includes('--verbose');
   }
+
+  watchMode() {
+    return this.args.includes('--watch');
+  }
 }
 
 module.exports = ArgParser;

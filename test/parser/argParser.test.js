@@ -11,6 +11,27 @@ describe('Arg Parser', () => {
     });
   });
 
+  describe('--watch', () => {
+    it('should be false when not provided', () => {
+      const args = ['/usr/local/bin/node', '/usr/local/bin/hlj', 'fixture'];
+      const argParser = new ArgParser(args);
+      expect(argParser.getPath()).toEqual('fixture');
+      expect(argParser.watchMode()).toEqual(false);
+    });
+
+    it('should be true when provided', () => {
+      const args = [
+        '/usr/local/bin/node',
+        '/usr/local/bin/hlj',
+        'fixture',
+        '--watch',
+      ];
+      const argParser = new ArgParser(args);
+      expect(argParser.getPath()).toEqual('fixture');
+      expect(argParser.watchMode()).toEqual(true);
+    });
+  });
+
   describe('vim-test', () => {
     it('parse args of TestFile', () => {
       const args = [
