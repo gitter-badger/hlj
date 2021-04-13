@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs');
+const { sep } = require('path');
 const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
@@ -38,7 +39,7 @@ const main = (workingDir, fileName, testCaseName, verbose) => {
 };
 
 const argParser = new ArgParser(process.argv);
-const workingDir = process.cwd() + '/';
+const workingDir = process.cwd() + sep;
 const testCaseName = argParser.getTestCaseName();
 
 const testReport = main(

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { sep } = require('path');
 
 class Walker {
   constructor() {
@@ -12,7 +13,7 @@ class Walker {
     }
 
     if (this.isDir(path)) {
-      const completedPath = path.endsWith('/') ? path : path + '/';
+      const completedPath = path.endsWith(sep) ? path : path + sep;
       const fileNames = fs.readdirSync(path);
       fileNames.forEach((fileName) => {
         this.walk(completedPath + fileName);

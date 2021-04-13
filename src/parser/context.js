@@ -1,3 +1,4 @@
+const { sep } = require('path');
 const TestSuite = require('../model/testSuite');
 const TestCase = require('../model/testCase');
 const Description = require('../model/description');
@@ -6,7 +7,7 @@ const vm = require('vm');
 
 class Context {
   constructor(path) {
-    this.path = path.substr(0, path.lastIndexOf('/'));
+    this.path = path.substr(0, path.lastIndexOf(sep));
   }
   create() {
     const tempChildren = [];
@@ -38,7 +39,7 @@ class Context {
         this.afterEach(callback);
       },
       require: (name) => {
-        return require(this.path + '/' + name);
+        return require(this.path + sep + name);
       },
       expect,
       process,
