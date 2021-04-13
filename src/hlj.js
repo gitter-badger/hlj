@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const http = require('http');
 const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
@@ -39,13 +38,23 @@ const testReport = main(
 );
 
 if (argParser.watchMode()) {
+
+  async function* gen() {
+    while (true) {
+      const key = yield;
+      if (key === 'q') process.exit()
+    }
+  }
+
+  const g = gen();
+  g.next();
+
   var stdin = process.openStdin();
 
-  stdin.on('data', function (data) {
-    const key = data.toString();
-    if (key === 'q\n') process.exit();
+  stdin.on('data', async function (data) {
+    const key = data.toString().trim();
+    await g.next(key);
   });
 
-  http.createServer(() => {}).listen(8001, () => {});
 }
 module.exports = testReport;
