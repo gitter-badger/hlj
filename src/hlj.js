@@ -52,8 +52,18 @@ if (argParser.watchMode()) {
   const g = gen();
   g.next();
 
-  fs.watch(argParser.getPath(), { recursive: true }, async () => {
-    await g.next('a');
+  fs.watch(workingDir, { recursive: true }, async (eventType, fileName) => {
+
+    const walker = new Walker();
+    const isTestFile = walker.isTestFile(fileName);
+
+    isTestFile ? main(
+      workingDir,
+      fileName,
+      testCaseName,
+      argParser.verbose()
+    ) : await g.next('a');
+
   });
 
   var stdin = process.openStdin();
