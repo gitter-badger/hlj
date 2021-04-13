@@ -7,13 +7,20 @@ const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
 const { SHOW_LOGO } = require('./constant');
 
+const handleCommand = async (key, fileName) => {
+  if (key === 'q') process.exit();
+  if (key === 'a') {
+    main(workingDir, argParser.getPath(), testCaseName, argParser.verbose());
+  }
+  if (key === 'o') {
+    main(workingDir, fileName, testCaseName, argParser.verbose());
+  }
+};
+
 async function* gen() {
   while (true) {
     const key = yield;
-    if (key === 'q') process.exit();
-    if (key === 'a') {
-      main(workingDir, argParser.getPath(), testCaseName, argParser.verbose());
-    }
+    await handleCommand(key);
   }
 }
 
@@ -62,9 +69,7 @@ if (argParser.watchMode()) {
     const walker = new Walker();
     const isTestFile = walker.isTestFile(fileName);
 
-    isTestFile
-      ? main(workingDir, fileName, testCaseName, argParser.verbose())
-      : await g.next('a');
+    isTestFile ? await handleCommand('o') : await handleCommand('a');
   });
 
   var stdin = process.openStdin();
