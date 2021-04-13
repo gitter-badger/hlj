@@ -5,6 +5,16 @@ const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
 const { SHOW_LOGO } = require('./constant');
 
+async function* gen() {
+  while (true) {
+    const key = yield;
+    if (key === 'q') process.exit();
+    if (key === 'a') {
+      main(workingDir, argParser.getPath(), testCaseName, argParser.verbose());
+    }
+  }
+}
+
 const main = (workingDir, fileName, testCaseName, verbose) => {
   const fullPath = workingDir + fileName;
   const walker = new Walker();
@@ -38,14 +48,6 @@ const testReport = main(
 );
 
 if (argParser.watchMode()) {
-
-  async function* gen() {
-    while (true) {
-      const key = yield;
-      if (key === 'q') process.exit()
-    }
-  }
-
   const g = gen();
   g.next();
 
@@ -55,6 +57,5 @@ if (argParser.watchMode()) {
     const key = data.toString().trim();
     await g.next(key);
   });
-
 }
 module.exports = testReport;
