@@ -49,27 +49,28 @@ const testReport = main(
   argParser.verbose()
 );
 
+const flushScreen = () => {
+  console.log('\x1Bc');
+};
+
 if (argParser.watchMode()) {
   const g = gen();
   g.next();
 
   fs.watch(workingDir, { recursive: true }, async (eventType, fileName) => {
-
+    flushScreen();
     const walker = new Walker();
     const isTestFile = walker.isTestFile(fileName);
 
-    isTestFile ? main(
-      workingDir,
-      fileName,
-      testCaseName,
-      argParser.verbose()
-    ) : await g.next('a');
-
+    isTestFile
+      ? main(workingDir, fileName, testCaseName, argParser.verbose())
+      : await g.next('a');
   });
 
   var stdin = process.openStdin();
 
   stdin.on('data', async function (data) {
+    flushScreen();
     const key = data.toString().trim();
     await g.next(key);
   });
