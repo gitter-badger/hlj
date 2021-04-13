@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const fs = require('fs');
 const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
@@ -50,6 +51,10 @@ const testReport = main(
 if (argParser.watchMode()) {
   const g = gen();
   g.next();
+
+  fs.watch(argParser.getPath(), { recursive: true }, async () => {
+    await g.next('a');
+  });
 
   var stdin = process.openStdin();
 
