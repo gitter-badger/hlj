@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const http = require('http');
 const Parser = require('./parser/parser');
 const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
@@ -36,4 +37,15 @@ const testReport = main(
   testCaseName,
   argParser.verbose()
 );
+
+if (argParser.watchMode()) {
+  var stdin = process.openStdin();
+
+  stdin.on('data', function (data) {
+    const key = data.toString();
+    if (key === 'q\n') process.exit();
+  });
+
+  http.createServer(() => {}).listen(8001, () => {});
+}
 module.exports = testReport;
