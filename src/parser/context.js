@@ -38,6 +38,9 @@ class Context {
       afterEach: (callback) => {
         this.afterEach(callback);
       },
+      beforeAll: (callback) => {
+        this.beforeAll(callback);
+      },
       require: (name) => {
         return require(this.path + sep + name);
       },
@@ -108,6 +111,14 @@ class Context {
     } else {
       this.context.testSuite.setBeforeEach(callback);
     }
+  }
+
+  beforeAll(callback) {
+    // if (this.context.descriptions.length > 0) {
+    //   this.context.descriptions[0].setBeforeEach(callback);
+    // } else {
+    this.context.testSuite.setBeforeAll(callback);
+    // }
   }
 
   afterEach(callback) {

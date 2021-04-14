@@ -40,6 +40,8 @@ class TestSuite {
   execute(testCaseName) {
     this.updateOnlyRunStatus();
 
+    this.beforeAll && this.beforeAll();
+
     this.children.forEach((child) => {
       this.beforeEach && this.beforeEach();
       child.execute(testCaseName);
@@ -102,6 +104,10 @@ class TestSuite {
 
   setAfterEach(callback) {
     this.afterEach = callback;
+  }
+
+  setBeforeAll(beforeAll) {
+    this.beforeAll = beforeAll;
   }
 }
 

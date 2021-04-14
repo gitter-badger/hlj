@@ -3,6 +3,13 @@ const { FIXTURE } = require('./helper/fixtures');
 
 describe('Hook', () => {
   describe('In suite', () => {
+    describe('beforeAll', () => {
+      it('should run once before all test case', () => {
+        const stdout = exec(`hlj ${FIXTURE}/hook/beforeAll.test.js`);
+        expect(stdout).toContain('PASS');
+      });
+    });
+
     describe('beforeEach', () => {
       it('should run before each test case', () => {
         const stdout = exec(`hlj ${FIXTURE}/hook/beforeEach.test.js`);
