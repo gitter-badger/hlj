@@ -10,6 +10,13 @@ describe('Hook', () => {
       });
     });
 
+    describe('afterAll', () => {
+      it('should run once after all test case', () => {
+        const stdout = exec(`hlj ${FIXTURE}/hook/afterAll.test.js`);
+        expect(stdout).toContain('PASS');
+      });
+    });
+
     describe('beforeEach', () => {
       it('should run before each test case', () => {
         const stdout = exec(`hlj ${FIXTURE}/hook/beforeEach.test.js`);

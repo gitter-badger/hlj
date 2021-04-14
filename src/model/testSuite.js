@@ -109,6 +109,10 @@ class TestSuite {
   setBeforeAll(beforeAll) {
     this.beforeAll = beforeAll;
   }
+
+  setAfterAll(callback) {
+    this.afterAll = callback;
+  }
 }
 
 module.exports = TestSuite;
