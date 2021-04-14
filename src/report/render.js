@@ -12,6 +12,7 @@ const red = (text) => `${COLOR_SCHEMA.red}${text}${COLOR_SCHEMA.reset}`;
 const yellow = (text) => `${COLOR_SCHEMA.yellow}${text}${COLOR_SCHEMA.reset}`;
 const blue = (text) => `${COLOR_SCHEMA.blue}${text}${COLOR_SCHEMA.reset}`;
 const time = (time) => `${COLOR_SCHEMA.yellow}${time}s${COLOR_SCHEMA.reset}`;
+const bold = (text) => `${FONT_STYLE.bold}${text}${COLOR_SCHEMA.reset}`;
 module.exports = {
   pass,
   fail,
@@ -22,4 +23,5 @@ module.exports = {
   blue,
   time,
   underline,
+  bold,
 };

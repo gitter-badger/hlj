@@ -6,6 +6,7 @@ const Walker = require('./walker');
 const ConsoleReporter = require('./report/consoleReporter');
 const ArgParser = require('./parser/argParser');
 const { SHOW_LOGO } = require('./constant');
+const { bold } = require('./report/render');
 
 const handleCommand = (key, fileName) => {
   if (key === 'q') process.exit();
@@ -15,6 +16,13 @@ const handleCommand = (key, fileName) => {
   if (key === 'o') {
     main(workingDir, fileName, testCaseName, argParser.verbose());
   }
+
+  printUsage();
+};
+
+const printUsage = () => {
+  const usage = `\n${bold('Usage:')}\na - Run all tests\nq - Quit watch mode`;
+  console.log(usage);
 };
 
 function* gen() {
@@ -61,6 +69,7 @@ const flushScreen = () => {
 };
 
 if (argParser.watchMode()) {
+  printUsage();
   const g = gen();
   g.next();
 

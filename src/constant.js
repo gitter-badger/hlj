@@ -13,7 +13,7 @@ const COLOR_SCHEMA = {
 };
 
 const FONT_STYLE = {
-  bold: '1m',
+  bold: '\x1B[1m',
   underline: '\x1B[4m',
 };
 
