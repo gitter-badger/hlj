@@ -61,11 +61,13 @@ class Description {
       toRunList = onlyRunTestCases;
     }
 
+    this.beforeAll && this.beforeAll();
     toRunList.forEach((child) => {
       this.beforeEach && this.beforeEach();
       child.execute(testCaseName);
       this.afterEach && this.afterEach();
     });
+    this.afterAll && this.afterAll();
   }
 
   skipOthers() {
@@ -102,6 +104,10 @@ class Description {
 
   setBeforeEach(callback) {
     this.beforeEach = callback;
+  }
+
+  setBeforeAll(callback) {
+    this.beforeAll = callback;
   }
 
   setAfterEach(callback) {

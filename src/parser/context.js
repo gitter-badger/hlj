@@ -117,11 +117,11 @@ class Context {
   }
 
   beforeAll(callback) {
-    // if (this.context.descriptions.length > 0) {
-    //   this.context.descriptions[0].setBeforeEach(callback);
-    // } else {
-    this.context.testSuite.setBeforeAll(callback);
-    // }
+    if (this.context.descriptions.length > 0) {
+      this.context.descriptions[0].setBeforeAll(callback);
+    } else {
+      this.context.testSuite.setBeforeAll(callback);
+    }
   }
 
   afterEach(callback) {

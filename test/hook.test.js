@@ -33,6 +33,22 @@ describe('Hook', () => {
   });
 
   describe('In describe', () => {
+    describe('beforeAll', () => {
+      it('should run once before all test case', () => {
+        const stdout = exec(
+          `hlj ${FIXTURE}/hook/beforeAll-in-describe.test.js`
+        );
+        expect(stdout).toContain('PASS');
+      });
+    });
+
+    describe('afterAll', () => {
+      it('should run once after all test case', () => {
+        const stdout = exec(`hlj ${FIXTURE}/hook/afterAll-in-describe.test.js`);
+        expect(stdout).toContain('PASS');
+      });
+    });
+
     describe('beforeEach', () => {
       it('should run before each test case', () => {
         const stdout = exec(
